@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { trustIndicators } from "@/data/trust-indicators";
 import { workFlowSteps } from "@/data/workFlow";
 import { businessGoals } from "@/data/businessGoals";
+import { Fade } from "react-awesome-reveal";
 
 export default function Home() {
   return (
@@ -21,56 +22,70 @@ export default function Home() {
       <Header />
 
       {/* HERO SECTION */}
-      <section className="container mx-auto space-y-20 py-12 md:py-18">
-        <div className="space-y-6 px-6 text-center">
-          <Badge
-            variant="secondary"
-            className="border-primary/20 bg-primary/5 text-primary animate-in fade-in slide-in-from-bottom-3 mb-6 gap-2 px-2 py-1.5 duration-500"
-          >
-            <Shield size={20} className="fill-success stroke-success" />{" "}
-            Internal Operation Tool
-          </Badge>
-
-          <h1 className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both text-5xl leading-tight font-bold tracking-tighter text-balance delay-200 duration-700 md:text-7xl">
-            Manage your jobs <br />{" "}
-            <span className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-transparent">
-              without the chaos
-            </span>
-          </h1>
-          <p className="text-muted-foreground animate-in fade-in slide-in-from-bottom-5 fill-mode-both mx-auto max-w-2xl text-lg delay-400 duration-700">
-            Monitor your jobs, track pending and completed work, and monitor
-            payments — all in one place.
-          </p>
-
-          <div className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both flex flex-col justify-center gap-4 delay-600 duration-700 sm:flex-row md:gap-6">
-            <Link
-              href="/dashboard"
-              className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+      <section className="container mx-auto space-y-12 py-12 md:py-18">
+        <div className="space-y-4 px-6 text-center">
+          <Fade cascade direction="down" duration={200} delay={0} triggerOnce>
+            <Badge
+              variant="secondary"
+              className="border-primary/20 bg-primary/5 text-primary mb-6 gap-2 px-2 py-1.5"
             >
-              Continue to Dashboard <ArrowRight size={20} />
-            </Link>
-            <Link
-              href="#features"
-              className="text-muted-foreground hover:bg-muted flex items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
-            >
-              View Features
-            </Link>
+              <Shield size={20} className="fill-success stroke-success" />{" "}
+              Internal Operation Tool
+            </Badge>
+          </Fade>
+
+          <Fade cascade duration={200} delay={200} triggerOnce>
+            <h1 className="text-5xl leading-tight font-bold tracking-tighter text-balance delay-200 duration-700 md:text-7xl">
+              Manage your jobs <br />{" "}
+              <span className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-transparent">
+                without the chaos
+              </span>
+            </h1>
+          </Fade>
+          <Fade cascade direction="up" duration={200} delay={400} triggerOnce>
+            <p className="text-muted-foreground animate-in fade-in slide-in-from-bottom-5 fill-mode-both mx-auto max-w-2xl text-lg delay-400 duration-700">
+              Monitor your jobs, track pending and completed work, and monitor
+              payments — all in one place.
+            </p>
+          </Fade>
+
+          <div className="flex flex-col justify-center gap-4 sm:flex-row md:gap-6">
+            <Fade direction="down" duration={200} delay={600} triggerOnce>
+              <Link
+                href="/dashboard"
+                className="group bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+              >
+                Continue to Dashboard{" "}
+                <ArrowRight
+                  size={20}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+              <a
+                href="#features"
+                className="text-muted-foreground hover:bg-muted flex items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+              >
+                View Features
+              </a>
+            </Fade>
           </div>
         </div>
 
         {/* TRUST INDICATORS */}
-        <div className="mt-20 flex flex-wrap items-center justify-center gap-4 opacity-70 md:gap-8">
-          {trustIndicators.map((indicator) => (
-            <div
-              key={indicator.title}
-              className="flex items-center gap-2 text-sm font-medium"
-            >
-              <div className="bg-success/10 text-success flex h-8 w-8 items-center justify-center rounded-lg">
-                {indicator.icon}
+        <div className="flex flex-wrap items-center justify-center gap-4 opacity-70 md:gap-8">
+          <Fade cascade damping={0.1} direction="up" triggerOnce duration={200}>
+            {trustIndicators.map((indicator) => (
+              <div
+                key={indicator.title}
+                className="flex items-center gap-2 text-sm font-medium"
+              >
+                <div className="bg-success/10 text-success flex h-8 w-8 items-center justify-center rounded-lg">
+                  {indicator.icon}
+                </div>
+                {indicator.title}
               </div>
-              {indicator.title}
-            </div>
-          ))}
+            ))}
+          </Fade>
         </div>
       </section>
 
@@ -92,7 +107,7 @@ export default function Home() {
             {featureCards.map((card) => (
               <Card
                 key={card.title}
-                className="border-primary-foreground/70 text-primary-foreground flex flex-col gap-4 border bg-transparent transition-all duration-200 hover:scale-[1.02]"
+                className="border-primary-foreground/40 text-primary-foreground flex flex-col gap-4 border bg-transparent transition-all duration-200 hover:scale-[1.02]"
               >
                 <CardHeader className="flex flex-row items-center gap-3">
                   <div className="text-3xl">{card.icon}</div>
@@ -190,7 +205,11 @@ export default function Home() {
               href="/dashboard"
               className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
             >
-              Continue to Dashboard <ArrowRight size={20} />
+              Continue to Dashboard{" "}
+              <ArrowRight
+                size={20}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
           </div>
         </div>
