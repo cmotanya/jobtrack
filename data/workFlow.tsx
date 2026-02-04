@@ -17,4 +17,5 @@ export const workFlowSteps = [
     title: "Manage Payments",
     description: "Keep track of payments and ensure timely transactions",
   },
+  
 ];
