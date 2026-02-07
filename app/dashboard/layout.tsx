@@ -1,6 +1,6 @@
 "use client";
 
-import { dashboardNav } from "@/data/dashboard-nav";
+import { dashboardNav } from "@/data/Dashboard/dashboard-nav";
 import { cn } from "@/utils/cn";
 import { ClipboardEdit, Plus, X } from "lucide-react";
 import Link from "next/link";

@@ -2,15 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import {
-  Search,
-  X,
-  FileText,
-  Users,
-  TrendingUp,
-  Clock,
-  Briefcase,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 
@@ -56,7 +48,7 @@ export const SearchButton = () => {
       </Button>
 
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="w-full max-w-3xl overflow-hidden rounded-none p-0">
+        <DialogContent className="max-w-3xl overflow-hidden rounded-none p-0">
           <DialogHeader className="border-border border-b">
             <DialogTitle className="sr-only">
               Search tasks, clients and payments
@@ -93,7 +85,7 @@ export const SearchButton = () => {
             {!hasData && searchQuery.length === 0 ? (
               <div className="flex flex-col items-center justify-center space-y-10 text-center">
                 <div className="bg-primary/10 flex size-20 items-center justify-center rounded-full">
-                  <Search className="text-primary size-10" />
+                  <Search className="text-primary/70 size-10" />
                 </div>
                 <div>
                   <p className="text-muted-foreground text-lg font-semibold">
@@ -142,7 +134,7 @@ export const SearchButton = () => {
                   </div>
                 </div>
               </div>
-            ) : (
+            ) : searchQuery.length === 0 ? (
               <div className="flex flex-col items-center space-y-14">
                 <div className="space-y-2">
                   <p className="text-muted-foreground text-lg font-semibold uppercase">
@@ -192,7 +184,49 @@ export const SearchButton = () => {
                   </div>
                 </div>
               </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-8">
+                🔍{" "}
+                <div className="space-y-2 text-center">
+                  <p className="text-muted-foreground text-sm font-semibold">
+                    No Results Found!
+                  </p>
+                  <p className="text-muted-foreground text-xs tracking-tighter">
+                    Try a searching for <b>&quot;{searchQuery}&quot;</b> once
+                    you have the data
+                  </p>
+                </div>
+              </div>
             )}
+          </div>
+
+          {/* <DialogFooter> */}
+          <div className="bg-muted border-t p-3">
+            <div className="flex justify-between text-xs">
+              <div className="flex gap-1.5">
+                <kbd className="border-border bg-background flex size-4 items-center justify-center rounded-full border">
+                  ↑
+                </kbd>
+                <kbd className="border-border bg-background flex size-4 items-center justify-center rounded-full border">
+                  ↓
+                </kbd>
+                <span className="text-muted-foreground">navigate</span>
+              </div>
+
+              <div className="flex gap-1.5">
+                <kbd className="border-border bg-background flex size-4 items-center justify-center rounded-full border">
+                  ↩︎
+                </kbd>
+                <span className="text-muted-foreground">select</span>
+              </div>
+
+              <div className="flex gap-1.5">
+                <kbd className="border-border bg-background flex items-center justify-center rounded border px-0.5">
+                  ESC
+                </kbd>
+                <span className="text-muted-foreground">close</span>
+              </div>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
