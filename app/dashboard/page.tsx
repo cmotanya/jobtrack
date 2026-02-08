@@ -1,4 +1,7 @@
 import CreateJobDialog from "../components/dashboard/createJobDialog";
+import { dashboardNav } from "../../data/Dashboard/dashboard-nav";
+import { Button } from "@/components/ui/button";
+import { Info } from "lucide-react";
 
 export default function DashboardPage() {
   return (
@@ -16,7 +19,16 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <CreateJobDialog />
+        <div className="flex flex-col justify-center gap-3 px-5">
+          <CreateJobDialog />
+
+          <Button
+            variant="outline"
+            className="bg-muted border-muted-foreground/30 flex w-full items-center justify-center gap-2 rounded-xl border py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+          >
+            See How It Works <Info size={20} />
+          </Button>
+        </div>
       </div>
     </section>
   );

@@ -7,24 +7,26 @@ import {
 } from "@/components/ui/select";
 import { jobStatus } from "@/data/Dashboard/jobStatus";
 import { cn } from "@/utils/cn";
-import { useState } from "react";
 
-const JobProgress = () => {
-  const [jobProgress, setJobProgress] = useState("");
+type JobProgressProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
 
+const JobProgress = ({ value, onChange }: JobProgressProps) => {
   return (
-    <Select onValueChange={setJobProgress}>
-      <SelectTrigger className="mt-2">
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger>
         <SelectValue placeholder="Select job progress">
-          {jobProgress && (
-            <div className="flex items-center gap-2">
+          {value && (
+            <div className="gap- flex items-center gap-2 tracking-tight">
               <span
                 className={cn(
-                  "h-2.5 w-2.5 rounded-full",
-                  jobStatus.find((s) => s.value === jobProgress)?.color,
+                  "size-2.5 rounded-full",
+                  jobStatus.find((s) => s.value === value)?.color,
                 )}
               />
-              {jobStatus.find((s) => s.value === jobProgress)?.label}
+              {jobStatus.find((s) => s.value === value)?.label}
             </div>
           )}
         </SelectValue>
@@ -33,8 +35,8 @@ const JobProgress = () => {
       <SelectContent>
         {jobStatus.map((status) => (
           <SelectItem key={status.value} value={status.value}>
-            <div className="flex items-center gap-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${status.color}`} />
+            <div className="flex items-center gap-2 tracking-tight">
+              <span className={cn("size-2.5 rounded-full", status.color)} />
               {status.label}
             </div>
           </SelectItem>

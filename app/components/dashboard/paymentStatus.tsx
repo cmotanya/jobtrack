@@ -7,23 +7,26 @@ import {
 } from "@/components/ui/select";
 import { paymentStatus } from "@/data/Dashboard/jobStatus";
 import { cn } from "@/utils/cn";
-import { useState } from "react";
 
-const PaymentStatus = () => {
-  const [paymentProgress, setPaymentProgress] = useState("");
+type PaymentStatusProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+const PaymentStatus = ({ value, onChange }: PaymentStatusProps) => {
   return (
-    <Select onValueChange={setPaymentProgress}>
-      <SelectTrigger className="mt-2">
-        <SelectValue placeholder="Select job progress">
-          {paymentProgress && (
-            <div className="flex items-center gap-2">
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger>
+        <SelectValue placeholder="Select payment status">
+          {value && (
+            <div className="flex items-center gap-2 tracking-tight">
               <span
                 className={cn(
-                  "h-2.5 w-2.5 rounded-full",
-                  paymentStatus.find((s) => s.value === paymentProgress)?.color,
+                  "size-2.5 rounded-full",
+                  paymentStatus.find((s) => s.value === value)?.color,
                 )}
               />
-              {paymentStatus.find((s) => s.value === paymentProgress)?.label}
+              {paymentStatus.find((s) => s.value === value)?.label}
             </div>
           )}
         </SelectValue>
@@ -32,8 +35,8 @@ const PaymentStatus = () => {
       <SelectContent>
         {paymentStatus.map((status) => (
           <SelectItem key={status.value} value={status.value}>
-            <div className="flex items-center gap-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${status.color}`} />
+            <div className="flex items-center gap-2 tracking-tight">
+              <span className={cn("size-2.5 rounded-full", status.color)} />
               {status.label}
             </div>
           </SelectItem>
