@@ -1,5 +1,4 @@
 import CreateJobDialog from "../components/dashboard/createJobDialog";
-import { dashboardNav } from "../../data/Dashboard/dashboard-nav";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 

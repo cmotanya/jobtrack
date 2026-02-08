@@ -11,7 +11,6 @@ import {
 import { useState } from "react";
 import JobForm from "./jobForm";
 import { ArrowRight } from "lucide-react";
-import { Fade } from "react-awesome-reveal";
 import { Button } from "@/components/ui/button";
 
 const CreateJobDialog = () => {
@@ -21,15 +20,13 @@ const CreateJobDialog = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <div>
-          <Fade direction="down" duration={200} delay={600} triggerOnce>
-            <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
-              Create Your First Job{" "}
-              <ArrowRight
-                size={20}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </Button>
-          </Fade>
+          <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
+            Create Your First Job{" "}
+            <ArrowRight
+              size={20}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Button>
         </div>
       </DialogTrigger>
 
