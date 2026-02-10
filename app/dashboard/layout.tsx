@@ -37,7 +37,7 @@ export default function DashboardLayout({
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
-        <div className="bg-foreground flex items-center justify-between px-4 py-6">
+        <div className="bg-foreground/80 flex items-center justify-between px-4 py-6">
           <div className="text-muted flex flex-col">
             <h1 className="text-xl font-bold tracking-tight">JobTrack</h1>
             <h3 className="text-xs tracking-widest">Project Manager</h3>
