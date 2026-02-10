@@ -19,7 +19,7 @@ const JobProgress = ({ value, onChange }: JobProgressProps) => {
       <SelectTrigger>
         <SelectValue placeholder="Select job progress">
           {value && (
-            <div className="gap- flex items-center gap-2 tracking-tight">
+            <div className="flex items-center gap-2 tracking-tight">
               <span
                 className={cn(
                   "size-2.5 rounded-full",

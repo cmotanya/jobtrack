@@ -21,7 +21,7 @@ const CreateJobDialog = () => {
       <DialogTrigger asChild>
         <div>
           <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
-            Create Your First Job{" "}
+            Create New Job{" "}
             <ArrowRight
               size={20}
               className="transition-transform group-hover:translate-x-1"

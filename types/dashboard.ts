@@ -55,3 +55,16 @@ export type OnSubmitJobProps = {
 export type JobDialogProps = {
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+export type JobProps = {
+  id: string;
+  title: string;
+  client: string;
+  status: JobStatusTypes;
+  paymentStatus: PaymentStatusTypes;
+  amount: number;
+  startDate: string;
+  dueDate: string;
+  createdAt: string;
+  updatedAt: string;
+};

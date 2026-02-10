@@ -55,7 +55,7 @@ export default function Home() {
                 href="/dashboard"
                 className="group bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
               >
-                Continue to Dashboard{" "}
+                Log In to Continue{" "}
                 <ArrowRight
                   size={20}
                   className="transition-transform group-hover:translate-x-1"
@@ -63,9 +63,9 @@ export default function Home() {
               </Link>
               <a
                 href="#features"
-                className="text-muted-foreground hover:bg-muted flex items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+                className="text-muted-foreground bg-muted hover:bg-muted flex items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
               >
-                View Features
+                Explore Features
               </a>
             </Fade>
           </div>
@@ -205,7 +205,7 @@ export default function Home() {
               href="/dashboard"
               className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
             >
-              Continue to Dashboard{" "}
+              Log In to Get Started{" "}
               <ArrowRight
                 size={20}
                 className="transition-transform group-hover:translate-x-1"

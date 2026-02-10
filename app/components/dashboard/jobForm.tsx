@@ -125,17 +125,13 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
             >
               Amount
             </Label>
-            <div className="relative">
-              <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm font-semibold">
-                KES
-              </span>
+            <div>
               <Input
                 id={field.name}
                 type="text"
                 inputMode="numeric"
                 placeholder={field.name}
                 className={cn(
-                  "pl-12",
                   inputClassName(!!fieldState.error, fieldState.isTouched),
                 )}
                 value={formatCurrency(field.value.toString())}
