@@ -2,13 +2,14 @@
 
 import { dashboardNav } from "@/data/Dashboard/dashboard-nav";
 import { cn } from "@/utils/cn";
-import { ClipboardEdit, Plus, X } from "lucide-react";
+import { ClipboardEdit, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Header from "../components/dashboard/header";
 import UserProfile from "../components/dashboard/userProfile";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout({
   children,
@@ -25,14 +26,14 @@ export default function DashboardLayout({
     <div className="min-h-screen">
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 backdrop-blur"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       <aside
         className={cn(
-          "bg-muted border-muted-foreground/30 fixed inset-y-0 left-0 z-100 flex w-80 flex-col border-r shadow-xl transition-transform duration-300 ease-in-out",
+          "bg-muted border-muted-foreground/30 fixed inset-y-0 left-0 z-100 flex flex-col border-r shadow-xl transition-transform duration-300 ease-in-out",
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
@@ -73,15 +74,15 @@ export default function DashboardLayout({
                 className={cn(
                   "block rounded-xl px-4 py-3 font-medium",
                   isActive
-                    ? "text-muted from-primary scale-105 bg-linear-to-r via-emerald-800 to-teal-800 shadow-lg shadow-slate-900/30"
-                    : "hover:bg-muted-foreground/15 border-muted-foreground/20 hover:border hover:shadow-md",
+                    ? "bg-muted-foreground/15 border-muted-foreground/20 scale-105 border shadow-md"
+                    : "border-muted-foreground/20 hover:border",
                   item.disabled
                     ? "pointer-events-none opacity-50"
                     : "cursor-pointer",
                 )}
               >
                 {isActive && (
-                  <div className="absolute top-1/2 left-0 h-8 w-1 -translate-y-1/2 rounded-r-full bg-amber-400" />
+                  <div className="bg-success absolute top-1/2 left-0 h-8 w-1 -translate-y-1/2 rounded-r-full" />
                 )}
                 {item.icon}
                 <span className="ml-2">{item.title}</span>
@@ -96,21 +97,20 @@ export default function DashboardLayout({
             Quick Actions
           </p>
 
-          <div className="flex flex-col justify-center gap-3 sm:flex-row md:gap-6">
-            <Link
-              href="/dashboard"
-              className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+          <div className="flex gap-3 md:gap-6">
+            <Button
+              onClick={() => setIsSidebarOpen(false)}
+              className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl font-semibold transition-all hover:scale-105 active:scale-95"
             >
-              <Plus size={20} />
-              Create New Task{" "}
-            </Link>
-            <Link
-              href="/dashboard/reports"
-              className="bg-muted-foreground/10 border-muted-foreground/15 text-muted-foreground flex items-center justify-center gap-2 rounded-xl border px-8 py-4 text-lg font-semibold shadow-md transition-all hover:scale-105 active:scale-95"
+              Create Job{" "}
+            </Button>
+            <Button
+              variant="ghost"
+              className="border-muted-foreground/15 text-muted-foreground flex items-center justify-center gap-2 rounded-xl border font-semibold shadow-md transition-all hover:scale-105 active:scale-95"
             >
               <ClipboardEdit size={20} />
               View Report
-            </Link>
+            </Button>
           </div>
         </div>
 
