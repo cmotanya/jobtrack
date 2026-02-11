@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobProps } from "@/types/dashboard";
 import { jobStats } from "@/utils/jobStats";
-import { Workflow } from "lucide-react";
+import { Download, Filter, Unplug, Workflow } from "lucide-react";
 import { useState } from "react";
 import { formatCurrency } from "../../utils/helper/formatCurrency";
 import {
@@ -23,13 +23,26 @@ export default function DashboardPage() {
   const stats = jobStats(jobs);
 
   return (
-    <section className="min-h-screen space-y-14 py-14" id="dashboard">
-      <div className="space-y-3 border-b px-4 pb-8">
-        <div className="space-y-0.5">
-          <h1 className="text-4xl font-bold">
+    <section className="min-h-screen pb-14" id="dashboard">
+      <div className="relative space-y-6 overflow-hidden px-4 pt-10 pb-20">
+        <div
+          className="absolute inset-0 -z-50"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(0, 0, 0, 0.05) 0.5px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0.5px, transparent 1px)
+              `,
+            backgroundSize: "25px 25px",
+          }}
+        />
+        <div className="space-y-3">
+          <h1 className="text-5xl font-bold">
             Welcome back,{" "}
-            <span className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-transparent">
-              Cornelius
+            <span className="relative">
+              <span className="from-success relative z-10 bg-linear-to-r via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                Cornelius
+              </span>
+              <span className="absolute -bottom-0.5 left-0 h-3 w-full bg-linear-to-r from-emerald-200 via-teal-200 to-cyan-200 opacity-50 blur-sm" />
             </span>
           </h1>
           <p className="text-muted-foreground text-sm">
@@ -50,116 +63,127 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <h2 className="inline-flex gap-2.5 px-4 text-4xl font-bold">
-          See Your{" "}
-          <span className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-transparent">
-            Stats
-          </span>
-        </h2>
-        <div className="flex flex-col gap-3 px-4">
-          <Card className="bg-muted border-muted-foreground/20 border py-3 shadow-md">
-            <CardHeader className="flex flex-row items-center justify-center gap-2">
-              💰
-              <CardTitle className="text-muted-foreground text-sm font-bold uppercase">
-                Total Revenue This Month
-              </CardTitle>
+      {/* Today's Jobs */}
+      <div className="py-14">
+        <div className="px-4">
+          <h2 className="text-3xl font-bold">Today&apos;s Focus</h2>
+          <p className="text-muted-foreground text-sm">
+            Here is a list of today&apos;s jobs.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 px-4">
+        <div>
+          <h2 className="inline-flex gap-2.5 text-3xl font-bold">Overview</h2>
+          <p className="text-muted-foreground text-sm">
+            Here is an overview of your dashboard.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3">
+          <Card className="bg-success text-muted space-y-5 py-3">
+            <CardHeader className="flex flex-row items-center justify-center gap-4">
+              📈
+              <CardTitle>Total Revenue This Month</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-4xl font-bold text-transparent">
+            <CardContent className="space-y-3">
+              <div className="text-4xl font-bold">
                 {formatCurrency(stats.totalAmount)}
               </div>
-              <p className="text-muted-foreground text-xs font-semibold">
+              <p className="text-xs font-semibold">
                 From {stats.totalJobs} completed jobs.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-muted border-muted-foreground/20 border py-3 shadow-md">
-            <CardHeader className="flex flex-row items-center justify-center gap-2">
-              📈
-              <CardTitle className="text-muted-foreground text-sm font-bold uppercase">
-                Jobs Completed This Month
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-success text-4xl font-bold">
-                {stats.totalJobsCompleted}
-              </div>
-              <p className="text-success text-xs font-semibold">
-                From {stats.totalAmountPaid} total revenue.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-muted border-muted-foreground/20 border py-3 shadow-md">
-            <CardHeader className="flex flex-row items-center justify-center gap-2">
+          <Card className="border border-yellow-300 bg-yellow-50 py-3 shadow-md">
+            <CardHeader className="flex flex-row items-center justify-center gap-4">
               📉
-              <CardTitle className="text-muted-foreground text-sm font-bold uppercase">
-                Jobs In-Progress This Month
-              </CardTitle>
+              <CardTitle>Jobs In Progress This Month</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
               <div className="text-4xl font-bold text-yellow-500">
                 {stats.totalJobsInProgress}
               </div>
-              <p className="text-xs font-semibold text-yellow-600">
-                From {stats.totalAmountInProgress} total pending revenue.
+              <p className="text-muted-foreground text-sm font-medium">
+                {formatCurrency(stats.totalAmountInProgress)} pending revenue.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-muted border-muted-foreground/20 border py-3 shadow-md">
-            <CardHeader className="flex flex-row items-center justify-center gap-2">
+          <Card className="border border-purple-300 bg-purple-50 py-3 shadow-md">
+            <CardHeader className="flex flex-row items-center justify-center gap-4">
               📆
-              <CardTitle className="text-muted-foreground text-sm font-bold uppercase">
-                Jobs Scheduled This Month
-              </CardTitle>
+              <CardTitle>Jobs Scheduled This Month</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-4xl font-bold text-amber-500">
+            <CardContent className="space-y-3">
+              <div className="text-4xl font-bold text-purple-600">
                 {stats.totalJobsScheduled}
               </div>
-              <p className="text-xs font-semibold text-amber-600">
-                From {stats.totalAmountScheduled} total pending revenue.
+              <p className="text-muted-foreground text-sm font-medium">
+                {formatCurrency(stats.totalAmountScheduled)} upcoming revenue.
               </p>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <h2 className="px-4 text-xl font-bold">Manage all your jobs</h2>
-        <Card className="py-3 shadow-md">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Recent Jobs</CardTitle>
-              <Button className="">Filter</Button>
+      <div className="space-y-2 pt-14">
+        <Card className="rounded-none border border-t border-b-0 py-5 shadow-none">
+          <CardHeader className="space-y-2">
+            <div>
+              <CardTitle className="text-2xl">Recent Jobs</CardTitle>
+              <p className="text-muted-foreground text-sm font-medium">
+                Track and manage all your projects in one place.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button className="">
+                {" "}
+                <Filter /> Filter
+              </Button>
+              <Button variant="outline" className="font-semibold">
+                {" "}
+                <Download /> Export
+              </Button>
             </div>
           </CardHeader>
 
           <CardContent>
             {jobs.length === 0 ? (
-              <div className="flex h-20 items-center justify-center">
-                <p className="text-muted-foreground text-center font-medium">
-                  No jobs found. Create Your Jobs to Get Started.
-                </p>
+              <div className="mt-6 flex h-70 flex-col items-center justify-center gap-8">
+                <Unplug className="size-25 text-red-300" />
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold tracking-tight">
+                    {" "}
+                    No Jobs Found
+                  </h3>
+                  <p className="text-muted-foreground text-center text-sm font-medium text-balance">
+                    We couldn&apos;t find any job. Create your first project to
+                    get started.
+                  </p>
+                </div>
+
+                <div className="w-full px-7">
+                  <CreateJobDialog />
+                </div>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Job ID</TableHead>
-                      <TableHead>Job Title</TableHead>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead className="font-semibold">Job ID</TableHead>
+                      <TableHead className="font-semibold">Job Title</TableHead>
+                      <TableHead className="font-semibold">Client</TableHead>
+                      <TableHead className="font-semibold">Date</TableHead>
+                      <TableHead className="font-semibold">Amount</TableHead>
+                      <TableHead className="font-semibold">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
+
                   <TableBody>
-                    {jobs.map((job) => (
+                    {jobs.slice(0, 5).map((job) => (
                       <TableRow key={job.id}>
                         <TableCell>{job.id}</TableCell>
                         <TableCell>{job.title}</TableCell>

@@ -19,7 +19,7 @@ const CreateJobDialog = () => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <div>
+        <div className="w-full">
           <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
             Create New Job{" "}
             <ArrowRight
