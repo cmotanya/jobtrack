@@ -263,7 +263,10 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
           >
             Job Progress
           </Label>
-          <JobProgress value={jobProgress} onChange={() => setJobProgress} />
+          <JobProgress
+            value={jobProgress}
+            onChange={(value) => setJobProgress(value)}
+          />
         </div>
 
         <div className="space-y-1">
@@ -275,7 +278,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
           </Label>
           <PaymentStatus
             value={paymentStatus}
-            onChange={() => setPaymentStatus}
+            onChange={(value) => setPaymentStatus(value)}
           />
         </div>
       </div>

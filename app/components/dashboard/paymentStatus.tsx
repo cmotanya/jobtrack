@@ -6,11 +6,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { paymentStatus } from "@/data/Dashboard/jobStatus";
+import { PaymentStatusTypes } from "@/types/dashboard";
 import { cn } from "@/utils/cn";
 
 type PaymentStatusProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value: PaymentStatusTypes;
+  onChange: (value: PaymentStatusTypes) => void;
 };
 
 const PaymentStatus = ({ value, onChange }: PaymentStatusProps) => {

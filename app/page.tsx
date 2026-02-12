@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Footer } from "./footer";
 import Header from "./header/page";
-import { ArrowRight, Shield, Sparkle } from "lucide-react";
+import { ArrowBigRight, Shield, Sparkle } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -22,7 +22,19 @@ export default function Home() {
       <Header />
 
       {/* HERO SECTION */}
-      <section className="container mx-auto space-y-12 py-12 md:py-18">
+      <section className="relative container mx-auto space-y-12 py-12 md:py-18">
+        {/* Pattern Overlay */}
+        <div
+          className="absolute inset-0 -z-20 overflow-hidden"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(16, 185, 129, 0.1) 1.5px, transparent 1px)",
+            backgroundSize: "25px 25px",
+          }}
+        />
+        <div className="absolute top-20 left-10 size-32 animate-bounce rounded-full bg-linear-to-br from-emerald-400/20 to-teal-400/20 opacity-50 blur-sm" />
+        <div className="animate-infinite absolute bottom-20 left-1/2 size-40 -translate-x-1/2 animate-bounce rounded-full bg-linear-to-br from-teal-400/20 to-cyan-400/20 opacity-50 blur-sm" />
+
         <div className="space-y-4 px-6 text-center">
           <Fade cascade direction="down" duration={200} delay={0} triggerOnce>
             <Badge
@@ -37,8 +49,9 @@ export default function Home() {
           <Fade cascade duration={200} delay={200} triggerOnce>
             <h1 className="text-5xl leading-tight font-bold tracking-tighter text-balance delay-200 duration-700 md:text-7xl">
               Manage your jobs <br />{" "}
-              <span className="from-primary block bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-transparent">
+              <span className="from-primary relative z-10 block bg-linear-to-r via-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 without the chaos
+                <span className="absolute -bottom-0.5 left-0 h-3 w-full bg-linear-to-r from-emerald-200 via-teal-200 to-cyan-200 opacity-50 blur-sm" />
               </span>
             </h1>
           </Fade>
@@ -56,7 +69,7 @@ export default function Home() {
                 className="group bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
               >
                 Log In to Continue{" "}
-                <ArrowRight
+                <ArrowBigRight
                   size={20}
                   className="transition-transform group-hover:translate-x-1"
                 />
@@ -188,7 +201,7 @@ export default function Home() {
       {/* CTA */}
       <section className="border-y py-12">
         <div className="container mx-auto px-3">
-          <h2 className="from-primary bg-linear-to-r via-emerald-800 to-teal-800 bg-clip-text text-center text-3xl font-bold text-transparent">
+          <h2 className="from-success relative z-10 block bg-linear-to-r via-teal-700 to-cyan-700 bg-clip-text text-center text-3xl font-bold text-transparent">
             Take Control of Your Job Management with JobTrack
             <Sparkle className="mb-1 ml-2 inline-block h-6 w-6 text-yellow-500" />
           </h2>
@@ -206,7 +219,7 @@ export default function Home() {
               className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
             >
               Log In to Get Started{" "}
-              <ArrowRight
+              <ArrowBigRight
                 size={20}
                 className="transition-transform group-hover:translate-x-1"
               />

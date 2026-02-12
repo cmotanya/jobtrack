@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import JobForm from "./jobForm";
-import { ArrowRight } from "lucide-react";
+import { ArrowBigRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CreateJobDialog = () => {
@@ -22,7 +22,7 @@ const CreateJobDialog = () => {
         <div className="w-full">
           <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
             Create New Job{" "}
-            <ArrowRight
+            <ArrowBigRight
               size={20}
               className="transition-transform group-hover:translate-x-1"
             />

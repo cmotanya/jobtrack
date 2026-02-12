@@ -6,11 +6,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { jobStatus } from "@/data/Dashboard/jobStatus";
+import { JobStatusTypes } from "@/types/dashboard";
 import { cn } from "@/utils/cn";
 
 type JobProgressProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value: JobStatusTypes;
+  onChange: (value: JobStatusTypes) => void;
 };
 
 const JobProgress = ({ value, onChange }: JobProgressProps) => {

@@ -2,13 +2,13 @@
 
 import { dashboardNav } from "@/data/Dashboard/dashboard-nav";
 import { cn } from "@/utils/cn";
-import { ClipboardEdit, X } from "lucide-react";
+import { ArrowBigRight, ClipboardEdit, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Header from "../components/dashboard/header";
 import UserProfile from "../components/dashboard/userProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout({
@@ -19,8 +19,17 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [sidebarOpen, setIsSidebarOpen] = useState(false);
 
-  {
-  }
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [sidebarOpen]);
 
   return (
     <div className="min-h-screen">
@@ -37,7 +46,7 @@ export default function DashboardLayout({
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
-        <div className="bg-foreground/80 flex items-center justify-between px-4 py-6">
+        <div className="bg-primary flex items-center justify-between px-4 py-6">
           <div className="text-muted flex flex-col">
             <h1 className="text-xl font-bold tracking-tight">JobTrack</h1>
             <h3 className="text-xs tracking-widest">Project Manager</h3>
@@ -97,16 +106,16 @@ export default function DashboardLayout({
             Quick Actions
           </p>
 
-          <div className="flex gap-3 md:gap-6">
+          <div className="flex flex-col gap-3 md:gap-6">
             <Button
               onClick={() => setIsSidebarOpen(false)}
-              className="bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl font-semibold transition-all hover:scale-105 active:scale-95"
+              className="bg-primary text-primary-foreground flex items-center justify-center gap-2 py-6.5 font-semibold uppercase transition-all hover:scale-105 active:scale-95"
             >
-              Create Job{" "}
+              Create Job <ArrowBigRight />
             </Button>
             <Button
-              variant="ghost"
-              className="border-muted-foreground/15 text-muted-foreground flex items-center justify-center gap-2 rounded-xl border font-semibold shadow-md transition-all hover:scale-105 active:scale-95"
+              variant="outline"
+              className="text-muted-foreground flex items-center justify-center gap-2 border py-6.5 font-semibold uppercase shadow-md transition-all hover:scale-105 active:scale-95"
             >
               <ClipboardEdit size={20} />
               View Report
