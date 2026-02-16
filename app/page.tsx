@@ -65,7 +65,7 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row md:gap-6">
             <Fade direction="down" duration={200} delay={600} triggerOnce>
               <Link
-                href="/dashboard"
+                href="/login"
                 className="group bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
               >
                 Log In to Continue{" "}

@@ -47,7 +47,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
         OnJobSubmit({ data, reset, setIsDialogOpen }),
       )}
       className="flex flex-col gap-4"
-    >
+    > 
       <Controller
         control={control}
         name="title"

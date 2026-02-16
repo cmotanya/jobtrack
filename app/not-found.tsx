@@ -4,7 +4,6 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const NotFoundPage = () => {

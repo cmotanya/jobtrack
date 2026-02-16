@@ -1,5 +1,5 @@
 import { today, nextDueDate } from "@/app/components/dashboard/datePicker";
-import { JobSchemaData } from "../zodSchema";
+import { InputSchemaData, JobSchemaData } from "../zodSchema";
 
 export const getDefaultValues = (): JobSchemaData => {
   return {
@@ -11,5 +11,12 @@ export const getDefaultValues = (): JobSchemaData => {
     amount: 0,
     startDate: today,
     dueDate: nextDueDate,
+  };
+};
+
+export const getDefaultLoginValues = (): InputSchemaData => {
+  return {
+    email: "",
+    password: "",
   };
 };

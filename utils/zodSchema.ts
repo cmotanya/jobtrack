@@ -24,4 +24,14 @@ export const jobSchema = z
     path: ["dueDate"],
   });
 
+export const inputSchema = z.object({
+  email: z
+    .email({ message: "Invalid email" })
+    .min(1, { message: "Email is required" }),
+  password: z
+    .string()
+    .min(4, { message: "Password must be at least 4 characters" }),
+});
+
 export type JobSchemaData = z.infer<typeof jobSchema>;
+export type InputSchemaData = z.infer<typeof inputSchema>;
