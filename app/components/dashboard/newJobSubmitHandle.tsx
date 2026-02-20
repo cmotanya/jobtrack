@@ -1,5 +1,5 @@
 import { NewJobSubmitHandleProps } from "@/types/dashboard";
-import { getDefaultValues } from "@/utils/helper/defaultValues";
+import { getDefaultEmptyJobValues } from "@/utils/helper/defaultValues";
 
 export const handleNewJobSubmit = async ({
   data,
@@ -9,7 +9,7 @@ export const handleNewJobSubmit = async ({
   try {
     console.log("Submitted data:", data);
 
-    reset(getDefaultValues());
+    reset(getDefaultEmptyJobValues());
 
     setIsDialogOpen(false);
   } catch (error) {

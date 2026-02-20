@@ -24,14 +24,33 @@ export const jobSchema = z
     path: ["dueDate"],
   });
 
-export const inputSchema = z.object({
+export const loginSchema = z.object({
   email: z
     .email({ message: "Invalid email" })
     .min(1, { message: "Email is required" }),
   password: z
     .string()
-    .min(4, { message: "Password must be at least 4 characters" }),
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-export type JobSchemaData = z.infer<typeof jobSchema>;
-export type InputSchemaData = z.infer<typeof inputSchema>;
+export const signUpSchema = z
+  .object({
+    fullName: z
+      .string()
+      .min(2, { message: "Name must be at least 2 character" }),
+    email: z
+      .email({ message: "Please enter a valid email" })
+      .min(1, { message: "Email is required" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type JobFormData = z.infer<typeof jobSchema>;
+export type LoginFormData = z.infer<typeof loginSchema>;
+export type SignUpFormData = z.infer<typeof signUpSchema>;

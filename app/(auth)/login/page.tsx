@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getDefaultLoginValues } from "@/utils/helper/defaultValues";
-import { inputSchema, InputSchemaData } from "@/utils/zodSchema";
+import { loginSchema, LoginFormData } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { cn } from "@/utils/cn";
-import { AlertCircle, ArrowBigRight, Eye, EyeOff } from "lucide-react";
+import { ArrowBigRight, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hook/useAuth";
 import { AuthSignInProps } from "@/types/auth";
 import { useEffect, useState } from "react";
@@ -18,10 +18,10 @@ import toast from "react-hot-toast";
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { control, handleSubmit, formState, reset } = useForm<InputSchemaData>({
-    resolver: zodResolver(inputSchema),
+  const { control, handleSubmit, formState, reset } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
     defaultValues: getDefaultLoginValues(),
-    mode: "onSubmit",
+    mode: "onChange",
   });
 
   const router = useRouter();
@@ -51,8 +51,8 @@ const LogInPage = () => {
     );
 
   return (
-    <section className="bg-background space-y-6 rounded-md px-5 py-8 text-center">
-      <div className="space-y-1">
+    <section className="bg-background space-y-6 rounded-md px-5 py-8">
+      <div className="space-y-1 text-center">
         <h1 className="text-4xl font-bold">Welcome Back</h1>
         <p>Sign in to your account to continue</p>
       </div>

@@ -14,9 +14,9 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
-import { getDefaultValues } from "@/utils/helper/defaultValues";
+import { getEmptyJob } from "@/utils/helper/defaultValues";
 import { Button } from "@/components/ui/button";
-import { JobSchemaData, jobSchema } from "@/utils/zodSchema";
+import { JobFormData, jobSchema } from "@/utils/zodSchema";
 import { formatCurrency, parseCurrency } from "@/utils/helper/formatCurrency";
 import { OnJobSubmit } from "./onJobSubmit";
 
@@ -29,9 +29,9 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
   const [paymentStatus, setPaymentStatus] =
     useState<PaymentStatusTypes>("unpaid");
 
-  const { control, handleSubmit, reset, formState } = useForm<JobSchemaData>({
+  const { control, handleSubmit, reset, formState } = useForm<JobFormData>({
     resolver: zodResolver(jobSchema),
-    defaultValues: getDefaultValues(),
+    defaultValues: getEmptyJob(),
     mode: "onSubmit",
   });
 
@@ -47,7 +47,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
         OnJobSubmit({ data, reset, setIsDialogOpen }),
       )}
       className="flex flex-col gap-4"
-    > 
+    >
       <Controller
         control={control}
         name="title"
@@ -288,7 +288,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
           variant="outline"
           onClick={() => {
             setIsDialogOpen(false);
-            getDefaultValues();
+            getEmptyJob();
           }}
           className="transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
         >

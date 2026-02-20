@@ -15,20 +15,14 @@ export function useAuth() {
 
   const supabase = createClient();
   const router = useRouter();
-  const getErrorMessage = (
-    err: unknown,
-    fallback: string,
-  ): string => {
+  const getErrorMessage = (err: unknown, fallback: string): string => {
     if (err instanceof Error) return err.message;
     return fallback;
   };
 
-  const handleLogin = async (
-    authData: AuthSignInProps,
-    reset?: UseFormReset<AuthSignInProps>,
-  ) => {
-    setIsLoading(true);
+  const handleLogin = async (authData: AuthSignInProps) => {
     setError(null);
+    setIsLoading(true);
 
     try {
       const { data, error: authError } =
@@ -36,10 +30,6 @@ export function useAuth() {
 
       if (authError) throw authError;
 
-      // Reset form if provided
-      reset?.();
-
-      // Navigate to dashboard
       router.push("/dashboard");
       router.refresh();
 
@@ -57,45 +47,43 @@ export function useAuth() {
     }
   };
 
-  const handleSignUp = async (
-    authData: AuthSignUpProps,
-    reset?: UseFormReset<AuthSignUpProps>,
-  ) => {
-    setIsLoading(true);
+  const handleSignUp = async (authData: AuthSignUpProps) => {
     setError(null);
+    setIsLoading(true);
 
     try {
       const { data, error: authError } = await supabase.auth.signUp(authData);
 
       if (authError) throw authError;
 
-      // Reset form if provided
-      reset?.();
-
-      // Check if email confirmation is required
+      // check if email confirmation is required
       if (data.user && !data.session) {
-        return { success: true, needsConfirmation: true };
-      } else {
-        // Auto-login successful
-        router.push("/dashboard");
-        router.refresh();
-        return { success: true, needsConfirmation: false, data };
+        return { success: true, needsConfirmation: true, user: data.user };
       }
+
+      // auto login successfully signed up user
+      router.push("/dashboard");
+      router.refresh();
+
+      return {
+        success: true,
+        needsConfirmation: true,
+        data,
+      };
     } catch (err: unknown) {
       const errorMessage = getErrorMessage(
         err,
-        "An error occurred during signup",
+        "An error occurred during sign up",
       );
       setError(errorMessage);
-      return { success: false, error: errorMessage };
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    setIsLoading(true);
     setError(null);
+    setIsLoading(true);
 
     try {
       const { error: authError } = await supabase.auth.signOut();

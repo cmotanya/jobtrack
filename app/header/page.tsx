@@ -14,7 +14,7 @@ const Header = () => {
 
       <nav>
         <Link href="/dashboard">
-          <Button variant="ghost">Log In</Button>
+          <Button variant="outline">Sign In</Button>
         </Link>
       </nav>
     </header>

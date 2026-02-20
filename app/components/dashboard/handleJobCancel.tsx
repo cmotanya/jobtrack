@@ -1,12 +1,12 @@
-import { getDefaultValues } from "@/utils/helper/defaultValues";
-import { JobSchemaData } from "@/utils/zodSchema";
+import { getDefaultEmptyJobValues } from "@/utils/helper/defaultValues";
+import { JobFormData } from "@/utils/zodSchema";
 import { UseFormReset } from "react-hook-form";
 
-export const handleJobCancel = (reset?: UseFormReset<JobSchemaData>) => {
+export const handleJobCancel = (reset?: UseFormReset<JobFormData>) => {
   if (!reset) return;
 
   try {
-    reset(getDefaultValues());
+    reset(getDefaultEmptyJobValues());
   } catch (error) {
     console.error(error);
   }

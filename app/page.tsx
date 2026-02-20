@@ -68,7 +68,7 @@ export default function Home() {
                 href="/login"
                 className="group bg-primary text-primary-foreground flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
               >
-                Log In to Continue{" "}
+                Sign In to Continue{" "}
                 <ArrowBigRight
                   size={20}
                   className="transition-transform group-hover:translate-x-1"
