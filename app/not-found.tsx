@@ -56,11 +56,11 @@ const NotFoundPage = () => {
                 Back to Previous Page
               </Button>
               <Button
-                onClick={() => router.push("/dashboard")}
+                onClick={() => router.push("/")}
                 variant="outline"
-                className="text-muted-foreground hover:bg-muted flex items-center justify-center gap-2 rounded-xl border p-7 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+                className="text-muted-foreground hover:text-muted-foreground active:text-muted-foreground w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
               >
-                Return to Dashboard{" "}
+                Return to Home{" "}
                 <ArrowUpRight
                   size={20}
                   className="transition-transform group-hover:translate-x-1 group-active:translate-x-1"
