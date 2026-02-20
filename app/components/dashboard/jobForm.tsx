@@ -14,11 +14,11 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
-import { getEmptyJob } from "@/utils/helper/defaultValues";
 import { Button } from "@/components/ui/button";
 import { JobFormData, jobSchema } from "@/utils/zodSchema";
 import { formatCurrency, parseCurrency } from "@/utils/helper/formatCurrency";
 import { OnJobSubmit } from "./onJobSubmit";
+import { getDefaultEmptyJobValues } from "@/utils/helper/defaultValues";
 
 const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
   const [startDate, setStartDate] = useState(today);
@@ -31,7 +31,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
 
   const { control, handleSubmit, reset, formState } = useForm<JobFormData>({
     resolver: zodResolver(jobSchema),
-    defaultValues: getEmptyJob(),
+    defaultValues: getDefaultEmptyJobValues(),
     mode: "onSubmit",
   });
 
