@@ -1,29 +1,19 @@
-// ============================================
-// Enhanced Auth Hook
-// hooks/useAuth.ts
-// ============================================
-
 import { createClient } from "@/lib/supabase/client";
 import { AuthSignInProps, AuthSignUpProps } from "@/types/auth";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { UseFormReset } from "react-hook-form";
+import { useMemo } from "react";
 
 export function useAuth() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const supabase = useMemo(() => createClient(), []);
 
-  const supabase = createClient();
   const router = useRouter();
+
   const getErrorMessage = (err: unknown, fallback: string): string => {
     if (err instanceof Error) return err.message;
     return fallback;
   };
 
   const handleLogin = async (authData: AuthSignInProps) => {
-    setError(null);
-    setIsLoading(true);
-
     try {
       const { data, error: authError } =
         await supabase.auth.signInWithPassword(authData);
@@ -39,18 +29,12 @@ export function useAuth() {
         err,
         "An error occurred during login",
       );
-      setError(errorMessage);
 
-      return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
+      throw new Error(errorMessage);
     }
   };
 
   const handleSignUp = async (authData: AuthSignUpProps) => {
-    setError(null);
-    setIsLoading(true);
-
     try {
       const { data, error: authError } = await supabase.auth.signUp(authData);
 
@@ -67,7 +51,7 @@ export function useAuth() {
 
       return {
         success: true,
-        needsConfirmation: true,
+        needsConfirmation: false,
         data,
       };
     } catch (err: unknown) {
@@ -75,16 +59,12 @@ export function useAuth() {
         err,
         "An error occurred during sign up",
       );
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
+
+      throw new Error(errorMessage);
     }
   };
 
   const handleLogout = async () => {
-    setError(null);
-    setIsLoading(true);
-
     try {
       const { error: authError } = await supabase.auth.signOut();
 
@@ -99,21 +79,13 @@ export function useAuth() {
         err,
         "An error occurred during logout",
       );
-      setError(errorMessage);
-      return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
+      throw new Error(errorMessage);
     }
   };
-
-  const clearError = () => setError(null);
 
   return {
     handleLogin,
     handleSignUp,
     handleLogout,
-    isLoading,
-    error,
-    clearError,
   };
 }

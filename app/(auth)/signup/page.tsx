@@ -27,29 +27,32 @@ const SignUpPage = () => {
 
   const router = useRouter();
 
-  const { handleSignUp, error } = useAuth();
+  const { handleSignUp } = useAuth();
 
   // Show toast when error changes
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const onSubmit = async (data: AuthSignUpProps) => {
-    const result = await handleSignUp(data);
+    try {
+      const result = await handleSignUp(data);
 
-    if (result?.success) {
-      if (result?.needsConfirmation) {
+      if (result.needsConfirmation) {
         toast.success("Please check your email to confirm your account.");
+        reset({ ...data, password: "", confirmPassword: "" });
         router.push("/verify-email");
       } else {
         toast.success("Account created successfully!");
+        reset();
+        router.push("/dashboard");
       }
-    }
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Error creating account. Please try again.";
 
-    if (result?.success) {
-      reset({ ...data, password: "", confirmPassword: "" });
+      toast.error(message);
+
+      reset();
     }
   };
 
@@ -158,7 +161,7 @@ const SignUpPage = () => {
                   {...field}
                   id={field.name}
                   type={showPassword ? "text" : "password"}
-                  placeholder="****"
+                  placeholder="******"
                   autoComplete="new-password"
                   aria-describedby="passwordError"
                   disabled={formState.isSubmitting}
@@ -205,7 +208,7 @@ const SignUpPage = () => {
                   {...field}
                   id={field.name}
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder="****"
+                  placeholder="******"
                   autoComplete="new-password"
                   aria-describedby="confirmPasswordError"
                   disabled={formState.isSubmitting}

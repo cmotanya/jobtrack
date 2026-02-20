@@ -12,7 +12,7 @@ import { cn } from "@/utils/cn";
 import { ArrowBigRight, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hook/useAuth";
 import { AuthSignInProps } from "@/types/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 const LogInPage = () => {
@@ -26,21 +26,21 @@ const LogInPage = () => {
 
   const router = useRouter();
 
-  const { handleLogin, error } = useAuth();
+  const { handleLogin } = useAuth();
 
   const onSubmit = async (data: AuthSignInProps) => {
-    const result = await handleLogin(data);
+    try {
+      await handleLogin(data);
+      reset();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Login failed";
 
-    if (!result) {
-      reset({ ...data, password: "" });
+      toast.error(message);
+      if (message.toLowerCase().includes("invalid")) {
+        reset({ ...data, password: "" });
+      }
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -51,7 +51,7 @@ const LogInPage = () => {
     );
 
   return (
-    <section className="bg-background space-y-6 rounded-md px-5 py-8">
+    <section className="bg-background max-w-md space-y-6 rounded-md px-5 py-8">
       <div className="space-y-1 text-center">
         <h1 className="text-4xl font-bold">Welcome Back</h1>
         <p>Sign in to your account to continue</p>
@@ -63,10 +63,7 @@ const LogInPage = () => {
           name="email"
           render={({ field, fieldState }) => (
             <div className="space-y-1">
-              <Label
-                htmlFor={field.name}
-                className="text-muted-foreground font-semibold"
-              >
+              <Label htmlFor={field.name} className="font-medium">
                 Email
               </Label>
               <Input
@@ -98,10 +95,7 @@ const LogInPage = () => {
           name="password"
           render={({ field, fieldState }) => (
             <div className="space-y-1">
-              <Label
-                htmlFor={field.name}
-                className="text-muted-foreground font-semibold"
-              >
+              <Label htmlFor={field.name} className="font-medium">
                 Password
               </Label>
               <div className="relative">
@@ -109,7 +103,7 @@ const LogInPage = () => {
                   {...field}
                   type={showPassword ? "text" : "password"}
                   id={field.name}
-                  placeholder="****"
+                  placeholder="******"
                   autoComplete="current-password"
                   disabled={formState.isSubmitting}
                   className={inputClassName(
@@ -144,7 +138,7 @@ const LogInPage = () => {
           type="submit"
           disabled={formState.isSubmitting}
           className={cn(
-            "py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
+            "py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
             formState.errors.root && "cursor-not-allowed opacity-50",
           )}
         >
