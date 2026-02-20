@@ -1,8 +1,11 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   return (
     <header className="sticky top-0 z-100 flex h-16 w-full items-center justify-between px-6 shadow-md backdrop-blur-xl">
       <div className="flex items-center gap-2">
@@ -13,9 +16,9 @@ const Header = () => {
       </div>
 
       <nav>
-        <Link href="/dashboard">
-          <Button variant="outline">Sign In</Button>
-        </Link>
+        <Button variant="outline" onClick={() => router.push("/login")}>
+          Sign In
+        </Button>
       </nav>
     </header>
   );

@@ -288,7 +288,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
           variant="outline"
           onClick={() => {
             setIsDialogOpen(false);
-            getEmptyJob();
+            getDefaultEmptyJobValues();
           }}
           className="transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
         >
