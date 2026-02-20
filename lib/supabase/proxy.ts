@@ -11,7 +11,6 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll: () => request.cookies.getAll(),
-
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
@@ -25,24 +24,32 @@ export async function updateSession(request: NextRequest) {
   );
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const user = session?.user;
+  const pathname = request.nextUrl.pathname;
 
-  // redirect to login if not authenticated and not on auth pages
   const isAuthPage =
-    request.nextUrl.pathname.startsWith("/login") ||
-    request.nextUrl.pathname.startsWith("/signup");
+    pathname.startsWith("/login") || pathname.startsWith("/signup");
 
-  // if no user, redirect to login page
+  const isPublicPage =
+    pathname === "/" ||
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/pricing");
+
+  // let everyone through to public pages
+  if (isPublicPage) {
+    return supabaseResponse;
+  }
+
+  // unauthenticated user trying to access a protected page
   if (!user && !isAuthPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  // redirect to dashboard if authenticated and on auth pages
+  // authenticated user trying to access login/signup
   if (user && isAuthPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
