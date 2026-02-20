@@ -1,4 +1,4 @@
-import { JobSchemaData } from "@/utils/zodSchema";
+import { JobFormData } from "@/utils/zodSchema";
 import { UseFormReset } from "react-hook-form";
 
 export type HandleStartDateProps = {
@@ -7,18 +7,6 @@ export type HandleStartDateProps = {
   manualDueDate: boolean;
   setDueDate: (value: string) => void;
 };
-
-// export type Job = {
-//   id: string;
-//   title: string;
-//   client: string;
-//   description: string;
-//   status: string;
-//   paymentStatus: string;
-//   amount: number;
-//   startDate: string;
-//   dueDate: string;
-// };
 
 export type JobStatusTypes =
   | "scheduled"
@@ -41,14 +29,14 @@ export type JobFormValues = {
 };
 
 export type NewJobSubmitHandleProps = {
-  data: JobSchemaData;
-  reset: UseFormReset<JobSchemaData>;
+  data: JobFormData;
+  reset: UseFormReset<JobFormData>;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type OnSubmitJobProps = {
-  data: JobSchemaData;
-  reset: UseFormReset<JobSchemaData>;
+  data: JobFormData;
+  reset: UseFormReset<JobFormData>;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
