@@ -7,13 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser } from "@/context/AuthContext";
 import { useAuth } from "@/hook/useAuth";
 import { cn } from "@/utils/cn";
 import { ChevronDown, UserCircleIcon } from "lucide-react";
 import Image from "next/image";
 
 const UserProfile = () => {
-  const { user, handleLogout } = useAuth();
+  const { user } = useUser();
+  const { handleLogout } = useAuth();
 
   const display_name =
     user?.user_metadata?.full_name ?? user?.email?.split("@")[0];

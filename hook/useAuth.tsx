@@ -1,32 +1,16 @@
 import { createClient } from "@/lib/supabase/client";
 import { AuthSignInProps, AuthSignUpProps } from "@/types/auth";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export function useAuth() {
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
 
-  const throwError = (err: unknown, fallback: string): string => {
-    if (err instanceof Error) throw err.message;
+  const throwError = (err: unknown, fallback: string): never => {
+    if (err instanceof Error) throw err;
     throw new Error(fallback);
   };
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
 
   const handleLogin = async (authData: AuthSignInProps) => {
     try {
@@ -122,7 +106,6 @@ export function useAuth() {
   };
 
   return {
-    user,
     handleLogin,
     handleSignUp,
     handleResetPassword,
