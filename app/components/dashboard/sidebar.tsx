@@ -36,7 +36,7 @@ const SideBar = ({ sidebarOpen, setSidebarOpen }: SideBarProps) => {
 
       <aside
         className={cn(
-          "bg-muted border-muted-foreground/30 fixed inset-y-0 left-0 z-100 flex flex-col border-r shadow-xl transition-transform duration-300 ease-in-out",
+          "bg-muted border-muted-foreground/30 fixed inset-y-0 left-0 z-50 flex flex-col border-r shadow-xl transition-transform duration-300 ease-in-out",
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >

@@ -1,13 +1,13 @@
-import { useAuth } from "@/hook/useAuth";
-import { cn } from "@/utils/cn";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hook/useAuth";
+import { cn } from "@/utils/cn";
 import { ChevronDown, UserCircleIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -22,7 +22,7 @@ const UserProfile = () => {
   const email = user?.email ?? "";
 
   return (
-    <div className="bg-muted-foreground/5 border-muted-foreground/20 mt-auto flex w-full flex-col rounded-t-xl border">
+    <div className="bg-muted-foreground/5 z-2000 border-muted-foreground/20 mt-auto flex w-full flex-col rounded-t-xl border">
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
           <button className="flex w-full items-center justify-between gap-4 p-4">
