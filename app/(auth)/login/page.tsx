@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { cn } from "@/utils/cn";
-import { ArrowBigRight, Eye, EyeOff } from "lucide-react";
+import { ArrowBigRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { useAuth } from "@/hook/useAuth";
 import { AuthSignInProps } from "@/types/auth";
 import { useState } from "react";
@@ -51,13 +51,16 @@ const LogInPage = () => {
     );
 
   return (
-    <section className="bg-background max-w-md space-y-6 rounded-md px-5 py-8">
+    <section className="bg-background max-w-md space-y-6 rounded-xl pt-8 pb-2">
       <div className="space-y-1 text-center">
         <h1 className="text-4xl font-bold">Welcome Back</h1>
         <p>Sign in to your account to continue</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 px-5"
+      >
         <Controller
           control={control}
           name="email"
@@ -146,17 +149,36 @@ const LogInPage = () => {
         </Button>
       </form>
 
-      <div className="mt-18 space-y-2 text-center">
-        <p className="font-medium">Don&apos;t have an account?</p>
+      <div className="mt-14 space-y-5 border-t px-5 pt-4 pb-10">
+        <div>
+          <p className="text-muted-foreground text-center text-xs">
+            Forgot your password?
+          </p>
 
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => router.push("/signup")}
-          className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
-        >
-          Create an Account <ArrowBigRight />
-        </Button>
+          <Button
+            variant="link"
+            type="button"
+            onClick={() => router.push("/forgot-password")}
+            className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+          >
+            <LockKeyhole /> Reset Password
+          </Button>
+        </div>
+
+        <div className="space-y-2 text-center">
+          <p className="text-muted-foreground text-center text-xs">
+            Don&apos;t have an account?
+          </p>
+
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => router.push("/signup")}
+            className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+          >
+            Create an Account <ArrowBigRight />
+          </Button>
+        </div>
       </div>
 
       <div>

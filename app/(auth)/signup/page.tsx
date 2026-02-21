@@ -33,7 +33,7 @@ const SignUpPage = () => {
     try {
       const result = await handleSignUp(data);
 
-      if (result.needsConfirmation) {
+      if (result?.needsConfirmation) {
         toast.success("Please check your email to confirm your account.");
         reset({ ...data, password: "", confirmPassword: "" });
         router.push("/verify-email");

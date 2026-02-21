@@ -30,7 +30,10 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const isAuthPage =
-    pathname.startsWith("/login") || pathname.startsWith("/signup");
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password");
 
   const isPublicPage =
     pathname === "/" ||
@@ -49,7 +52,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // authenticated user trying to access login/signup
+  // authenticated user trying to access auth page
   if (user && isAuthPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";

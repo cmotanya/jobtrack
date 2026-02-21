@@ -9,3 +9,12 @@ export type AuthSignUpProps = {
   password: string;
   confirmPassword: string;
 };
+
+export type AuthForgotPasswordProps = {
+  email: string;
+};
+
+export type AuthResetPasswordProps = {
+  password: string;
+  confirmPassword: string;
+};

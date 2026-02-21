@@ -9,9 +9,9 @@ export function useAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
-  const getErrorMessage = (err: unknown, fallback: string): string => {
-    if (err instanceof Error) return err.message;
-    return fallback;
+  const throwError = (err: unknown, fallback: string): string => {
+    if (err instanceof Error) throw err.message;
+    throw new Error(fallback);
   };
 
   useEffect(() => {
@@ -40,12 +40,7 @@ export function useAuth() {
 
       return { success: true, data };
     } catch (err: unknown) {
-      const errorMessage = getErrorMessage(
-        err,
-        "An error occurred during login",
-      );
-
-      throw new Error(errorMessage);
+      throwError(err, "An error occurred during login");
     }
   };
 
@@ -73,12 +68,41 @@ export function useAuth() {
         data,
       };
     } catch (err: unknown) {
-      const errorMessage = getErrorMessage(
-        err,
-        "An error occurred during sign up",
+      throwError(err, "An error occurred during sign up");
+    }
+  };
+
+  const handleResetPassword = async (email: string) => {
+    try {
+      const { error: authError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/reset-password`,
+        },
       );
 
-      throw new Error(errorMessage);
+      if (authError) throw authError;
+
+      return { success: true };
+    } catch (err: unknown) {
+      throwError(err, "An error occurred during password reset");
+    }
+  };
+
+  const handleUpdatePassword = async (newPassword: string) => {
+    try {
+      const { error: authError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (authError) throw authError;
+
+      router.push("/login");
+      router.refresh();
+
+      return { success: true };
+    } catch (err: unknown) {
+      throwError(err, "An error occurred during password update");
     }
   };
 
@@ -93,11 +117,7 @@ export function useAuth() {
 
       return { success: true };
     } catch (err: unknown) {
-      const errorMessage = getErrorMessage(
-        err,
-        "An error occurred during logout",
-      );
-      throw new Error(errorMessage);
+      throwError(err, "An error occurred during logout");
     }
   };
 
@@ -105,6 +125,8 @@ export function useAuth() {
     user,
     handleLogin,
     handleSignUp,
+    handleResetPassword,
+    handleUpdatePassword,
     handleLogout,
   };
 }
