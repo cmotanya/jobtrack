@@ -25,7 +25,7 @@ export const SearchButton = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Auto-clear search when dialog closes
+  // auto-clear search when dialog closes
   useEffect(() => {
     const clearSearchQuery = () => setSearchQuery("");
 

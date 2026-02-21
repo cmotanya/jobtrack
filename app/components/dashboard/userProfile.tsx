@@ -1,3 +1,4 @@
+import { useAuth } from "@/hook/useAuth";
 import { cn } from "@/utils/cn";
 import {
   DropdownMenu,
@@ -7,12 +8,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import { ChevronDown, UserCircleIcon, LogOut } from "lucide-react";
+import { ChevronDown, UserCircleIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { user, handleLogout } = useAuth();
+
+  const display_name =
+    user?.user_metadata?.full_name ?? user?.email?.split("@")[0];
+  const email = user?.email ?? "";
 
   return (
     <div className="bg-muted-foreground/5 border-muted-foreground/20 mt-auto flex w-full flex-col rounded-t-xl border">
@@ -32,7 +39,7 @@ const UserProfile = () => {
               <div className="flex items-center gap-2">
                 <div className="flex flex-col text-start">
                   <p className="text-sm font-medium tracking-tight">
-                    Cornelius Motanya
+                    {display_name}
                   </p>
                   <p className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
                     <span className="bg-success inline-block h-2 w-2 rounded-full" />
@@ -69,9 +76,9 @@ const UserProfile = () => {
                 />
               </div>
               <div>
-                <p className="mt-1 font-medium">Cornelius Motanya</p>
+                <p className="mt-1 font-medium">{display_name}</p>
                 <p className="text-muted-foreground flex items-center gap-1 text-xs font-medium">
-                  corneliusmot@yahoo.com
+                  {email}
                 </p>
               </div>
             </div>
@@ -86,11 +93,11 @@ const UserProfile = () => {
               </div>
               <span className="">Profile</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-destructive/10 flex cursor-pointer items-center gap-1 transition-colors">
-              <div className="bg-destructive/10 flex size-8 items-center justify-center rounded-lg p-1.5">
-                <LogOut className="text-destructive size-4" />
-              </div>
-              <span className="text-destructive">Sign Out</span>
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="text-destructive hover:bg-destructive/10 flex cursor-pointer items-center gap-2"
+            >
+              Sign Out
             </DropdownMenuItem>
           </div>
         </DropdownMenuContent>

@@ -1,17 +1,32 @@
 import { createClient } from "@/lib/supabase/client";
 import { AuthSignInProps, AuthSignUpProps } from "@/types/auth";
+import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function useAuth() {
   const supabase = useMemo(() => createClient(), []);
-
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
 
   const getErrorMessage = (err: unknown, fallback: string): string => {
     if (err instanceof Error) return err.message;
     return fallback;
   };
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
 
   const handleLogin = async (authData: AuthSignInProps) => {
     try {
@@ -36,7 +51,10 @@ export function useAuth() {
 
   const handleSignUp = async (authData: AuthSignUpProps) => {
     try {
-      const { data, error: authError } = await supabase.auth.signUp(authData);
+      const { data, error: authError } = await supabase.auth.signUp({
+        ...authData,
+        options: { data: { full_name: authData.fullName } },
+      });
 
       if (authError) throw authError;
 
@@ -84,6 +102,7 @@ export function useAuth() {
   };
 
   return {
+    user,
     handleLogin,
     handleSignUp,
     handleLogout,

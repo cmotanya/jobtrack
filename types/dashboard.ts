@@ -8,6 +8,11 @@ export type HandleStartDateProps = {
   setDueDate: (value: string) => void;
 };
 
+export type SideBarProps = {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+};
+
 export type JobStatusTypes =
   | "scheduled"
   | "in-progress"

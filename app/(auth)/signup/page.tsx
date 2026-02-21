@@ -29,8 +29,6 @@ const SignUpPage = () => {
 
   const { handleSignUp } = useAuth();
 
-  // Show toast when error changes
-
   const onSubmit = async (data: AuthSignUpProps) => {
     try {
       const result = await handleSignUp(data);
