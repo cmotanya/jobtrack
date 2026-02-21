@@ -9,7 +9,7 @@ import { SignUpFormData, signUpSchema } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowBigRight, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "@/hook/useAuth";
 import toast from "react-hot-toast";
@@ -52,7 +52,7 @@ const SignUpPage = () => {
 
       toast.error(message);
 
-      reset();
+      reset({ ...data, password: "", confirmPassword: "" });
     }
   };
 
