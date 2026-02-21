@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +11,8 @@ import { useAuth } from "@/hook/useAuth";
 import { cn } from "@/utils/cn";
 import { ChevronDown, UserCircleIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 const UserProfile = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { user, handleLogout } = useAuth();
 
   const display_name =
@@ -22,10 +20,13 @@ const UserProfile = () => {
   const email = user?.email ?? "";
 
   return (
-    <div className="bg-muted-foreground/5 z-2000 border-muted-foreground/20 mt-auto flex w-full flex-col rounded-t-xl border">
-      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <div className="bg-muted-foreground/5 border-muted-foreground/20 z-2000 mt-auto flex w-full flex-col rounded-t-xl border">
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex w-full items-center justify-between gap-4 p-4">
+          <Button
+            variant="ghost"
+            className="group flex w-full items-center justify-between gap-4 p-4"
+          >
             <div className="flex items-center gap-3">
               <div className="border-muted-foreground/30 bg-muted flex size-12 items-center justify-center rounded-xl border-2">
                 <Image
@@ -52,13 +53,11 @@ const UserProfile = () => {
             {
               <ChevronDown
                 className={cn(
-                  "text-success size-5 transition-transform",
-                  isOpen &&
-                    "text-destructive rotate-180 animate-bounce rounded-sm transition-transform",
+                  "text-success group-data-[state=open]:text-destructive group-data group-data-[state=open]:animate size-5 transition-transform group-data-[state=open]:rotate-180",
                 )}
               />
             }
-          </button>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
@@ -94,7 +93,7 @@ const UserProfile = () => {
               <span className="">Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={handleLogout}
+              onSelect={handleLogout}
               className="text-destructive hover:bg-destructive/10 flex cursor-pointer items-center gap-2"
             >
               Sign Out
