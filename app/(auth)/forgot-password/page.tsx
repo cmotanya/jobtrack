@@ -61,7 +61,10 @@ const ForgotPasswordPage = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-5">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 px-5"
+      >
         <Controller
           control={control}
           name="email"
@@ -92,19 +95,16 @@ const ForgotPasswordPage = () => {
           )}
         />
 
-        <div className="flex justify-end">
-          <Button
-            type="submit"
-            onClick={() => router.push("/reset-password")}
-            disabled={formState.isSubmitting}
-            className={cn(
-              "py-6.5 font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
-              formState.errors.root && "cursor-not-allowed opacity-50",
-            )}
-          >
-            {formState.isSubmitting ? "Sending..." : "Send Reset Link"}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          disabled={formState.isSubmitting}
+          className={cn(
+            "py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
+            formState.errors.root && "cursor-not-allowed opacity-50",
+          )}
+        >
+          {formState.isSubmitting ? "Sending..." : "Send Reset Link"}
+        </Button>
       </form>
 
       <div className="space-y-2 px-5 pt-10 text-center text-xs">

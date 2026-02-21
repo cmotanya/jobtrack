@@ -141,7 +141,7 @@ const LogInPage = () => {
           type="submit"
           disabled={formState.isSubmitting}
           className={cn(
-            "py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
+            "py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
             formState.errors.root && "cursor-not-allowed opacity-50",
           )}
         >
@@ -159,7 +159,7 @@ const LogInPage = () => {
             variant="link"
             type="button"
             onClick={() => router.push("/forgot-password")}
-            className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+            className="w-full py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
           >
             <LockKeyhole /> Reset Password
           </Button>
@@ -174,7 +174,7 @@ const LogInPage = () => {
             variant="outline"
             type="button"
             onClick={() => router.push("/signup")}
-            className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+            className="w-full py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
           >
             Create an Account <ArrowBigRight />
           </Button>

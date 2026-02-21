@@ -246,7 +246,7 @@ const SignUpPage = () => {
           type="submit"
           disabled={formState.isSubmitting}
           className={cn(
-            "mt-6 py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
+            "mt-6 py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
             formState.errors.root && "cursor-not-allowed opacity-50",
           )}
         >
