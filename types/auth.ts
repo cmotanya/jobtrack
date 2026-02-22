@@ -18,3 +18,8 @@ export type AuthResetPasswordProps = {
   password: string;
   confirmPassword: string;
 };
+
+export type AuthVerifyOTPProps = {
+  email: string;
+  otp: string;
+};

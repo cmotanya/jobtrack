@@ -32,13 +32,18 @@ export async function updateSession(request: NextRequest) {
   const isAuthPage =
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup") ||
-    pathname.startsWith("/forgot-password") ||
-    pathname.startsWith("/reset-password");
+    pathname.startsWith("/forgot-password");
 
   const isPublicPage =
     pathname === "/" ||
     pathname.startsWith("/about") ||
     pathname.startsWith("/pricing");
+
+  const isResetPage = pathname.startsWith("/reset-password");
+
+  if (isResetPage) {
+    return supabaseResponse;
+  }
 
   // let everyone through to public pages
   if (isPublicPage) {

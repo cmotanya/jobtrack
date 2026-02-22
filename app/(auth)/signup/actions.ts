@@ -2,12 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { AuthSignUpProps } from "@/types/auth";
-import { cookies } from "next/headers";
 
 export async function SignUpAction(authData: AuthSignUpProps) {
   const supabase = await createClient();
 
-  const { data, error: authError } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     ...authData,
     options: {
       data: { full_name: authData.fullName },
@@ -15,14 +14,8 @@ export async function SignUpAction(authData: AuthSignUpProps) {
     },
   });
 
-  if (authError) {
-    return { success: false, error: authError.message, data };
-  }
-
-  if (data.session) {
-    const cookieStore = await cookies();
-    cookieStore.set("supabase-auth-token", data.session.access_token);
-    cookieStore.set("supabase-refresh-token", data.session.refresh_token);
+  if (error) {
+    return { success: false, error: error.message, data };
   }
 
   // check if email confirmation is required
@@ -34,6 +27,6 @@ export async function SignUpAction(authData: AuthSignUpProps) {
     success: true,
     needsConfirmation: false,
     data,
-    error: authError,
+    error: error,
   };
 }

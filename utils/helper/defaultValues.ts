@@ -48,3 +48,9 @@ export const getDefaultResetPasswordValues = (): ResetPasswordFormData => {
     confirmPassword: "",
   };
 };
+
+export const getDefaultVerifyOTPValues = (): { otp: string } => {
+  return {
+    otp: "",
+  };
+};

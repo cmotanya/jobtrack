@@ -6,12 +6,17 @@ import { AuthResetPasswordProps } from "@/types/auth";
 export async function resetPasswordAction(data: AuthResetPasswordProps) {
   const supabase = await createClient();
 
-  const { error: authError } = await supabase.auth.updateUser({
-    ...data,
-  });
+  const { error } = await supabase.auth.updateUser(
+    {
+      ...data,
+    },
+    {
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/login`,
+    },
+  );
 
-  if (authError) {
-    return { success: false, error: authError };
+  if (error) {
+    return { success: false, error: error.message };
   }
 
   await supabase.auth.signOut();

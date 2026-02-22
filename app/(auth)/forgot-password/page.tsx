@@ -18,32 +18,24 @@ import toast from "react-hot-toast";
 import { forgotPasswordAction } from "./actions";
 
 const ForgotPasswordPage = () => {
-  const { control, handleSubmit, formState, reset } =
-    useForm<ForgotPasswordFormData>({
-      resolver: zodResolver(forgotPasswordSchema),
-      defaultValues: getDefaultForgotPasswordValues(),
-      mode: "onChange",
-    });
+  const { control, handleSubmit, formState } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: getDefaultForgotPasswordValues(),
+    mode: "onChange",
+  });
 
   const router = useRouter();
 
   const onSubmit = async (data: AuthForgotPasswordProps) => {
-    try {
-      const result = await forgotPasswordAction({ email: data.email });
+    const result = await forgotPasswordAction({ email: data.email });
 
-      if (result?.success) {
-        toast.success(result.message);
-        reset();
-      } else if (result?.error) {
-        toast.error(result?.error);
-      }
-    } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "An error occurred during password reset";
-      toast.error(message);
+    if (!result.success) {
+      toast.error(result.error);
+      return;
     }
+
+    sessionStorage.setItem("reset-email", data.email!);
+    toast.success("Please check your email for reset code.");
   };
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>

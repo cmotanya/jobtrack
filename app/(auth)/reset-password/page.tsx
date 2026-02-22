@@ -3,14 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hook/useAuth";
 import { cn } from "@/lib/utils";
 import { AuthResetPasswordProps } from "@/types/auth";
 import { getDefaultResetPasswordValues } from "@/utils/helper/defaultValues";
 import { ResetPasswordFormData, resetPasswordSchema } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -20,9 +18,6 @@ const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // const { handleResetPassword } = useAuth();
-  const router = useRouter();
-
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({
       resolver: zodResolver(resetPasswordSchema),
@@ -31,14 +26,11 @@ const ResetPasswordPage = () => {
     });
 
   const onSubmit = async (data: AuthResetPasswordProps) => {
-    const result = await resetPasswordAction({ ...data });
+    await resetPasswordAction({ ...data });
 
-    if (result.error) toast.error(result.error.message);
-
-    if (result.success) toast.success("Password reset successfully!");
+    toast.success("Password reset successfully!");
 
     reset();
-    router.push("/login");
   };
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>

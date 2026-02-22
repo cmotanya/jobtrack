@@ -30,8 +30,6 @@ const LogInPage = () => {
   const onSubmit = async (data: AuthSignInProps) => {
     const result = await loginAction(data);
 
-    reset();
-
     if (result?.success) {
       reset();
 
@@ -44,7 +42,8 @@ const LogInPage = () => {
   };
 
   useEffect(() => {
-    if (searchParams.get("reset") === "success") {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("reset") === "success") {
       toast.success("Password reset successful!");
     }
   }, [searchParams]);
