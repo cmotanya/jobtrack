@@ -18,8 +18,8 @@ const UserProfile = () => {
   const { handleLogout } = useAuth();
 
   const display_name =
-    user?.user_metadata?.full_name ?? user?.email?.split("@")[0] ?? "Account";
-  const email = user?.email ?? "No email available";
+    user?.user_metadata?.full_name ?? user?.email?.split("@")[0];
+  const email = user?.email ?? "";
 
   return (
     <div className="bg-muted-foreground/5 border-muted-foreground/20 z-2000 mt-auto flex w-full flex-col rounded-t-xl border">
@@ -95,7 +95,7 @@ const UserProfile = () => {
               <span className="">Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={async () => await handleLogout()}
+              onClick={handleLogout}
               className="text-destructive hover:bg-destructive/10 flex cursor-pointer items-center gap-2"
             >
               Sign Out

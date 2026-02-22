@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hook/useAuth";
 import { cn } from "@/lib/utils";
 import { AuthForgotPasswordProps } from "@/types/auth";
 import { getDefaultForgotPasswordValues } from "@/utils/helper/defaultValues";
@@ -16,6 +15,7 @@ import { ArrowBigLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { forgotPasswordAction } from "./actions";
 
 const ForgotPasswordPage = () => {
   const { control, handleSubmit, formState, reset } =
@@ -26,20 +26,22 @@ const ForgotPasswordPage = () => {
     });
 
   const router = useRouter();
-  const { handleResetPassword } = useAuth();
 
   const onSubmit = async (data: AuthForgotPasswordProps) => {
     try {
-      const results = await handleResetPassword(data.email);
+      const result = await forgotPasswordAction({ email: data.email });
 
-      if (results?.success) {
-        toast.success("Password reset link sent to your email.");
+      if (result?.success) {
+        toast.success(result.message);
         reset();
-      } else {
-        toast.error("Error resetting password. Please try again.");
+      } else if (result?.error) {
+        toast.error(result?.error);
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : "An error occurred";
+      const message =
+        err instanceof Error
+          ? err.message
+          : "An error occurred during password reset";
       toast.error(message);
     }
   };
@@ -113,7 +115,7 @@ const ForgotPasswordPage = () => {
           variant="outline"
           type="button"
           onClick={() => router.push("/login")}
-          className="w-full py-6.5 text-lg font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+          className="w-full py-6.5 text-base font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
         >
           <ArrowBigLeft /> Back to Log In
         </Button>

@@ -10,15 +10,18 @@ import { getDefaultResetPasswordValues } from "@/utils/helper/defaultValues";
 import { ResetPasswordFormData, resetPasswordSchema } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { resetPasswordAction } from "./actions";
 
 const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { handleUpdatePassword } = useAuth();
+  // const { handleResetPassword } = useAuth();
+  const router = useRouter();
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({
@@ -28,18 +31,14 @@ const ResetPasswordPage = () => {
     });
 
   const onSubmit = async (data: AuthResetPasswordProps) => {
-    try {
-      const results = await handleUpdatePassword(data.password);
+    const result = await resetPasswordAction({ ...data });
 
-      if (results?.success) {
-        toast.success("Password updated successfully!");
-        reset();
-      } else {
-        toast.error("Error updating password. Please try again.");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    if (result.error) toast.error(result.error.message);
+
+    if (result.success) toast.success("Password reset successfully!");
+
+    reset();
+    router.push("/login");
   };
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>

@@ -11,9 +11,9 @@ import { ArrowBigRight, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useAuth } from "@/hook/useAuth";
 import toast from "react-hot-toast";
 import { AuthSignUpProps } from "@/types/auth";
+import { SignUpAction } from "./actions";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,30 +27,22 @@ const SignUpPage = () => {
 
   const router = useRouter();
 
-  const { handleSignUp } = useAuth();
-
   const onSubmit = async (data: AuthSignUpProps) => {
-    try {
-      const result = await handleSignUp(data);
+    const result = await SignUpAction(data);
 
-      if (result?.needsConfirmation) {
-        toast.success("Please check your email to confirm your account.");
-        reset({ ...data, password: "", confirmPassword: "" });
-        router.push("/verify-email");
-      } else {
-        toast.success("Account created successfully!");
-        reset();
-        router.push("/dashboard");
-      }
-    } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Error creating account. Please try again.";
-
-      toast.error(message);
-
+    if (!result?.success) {
+      toast.error(result?.error || "An error occurred during sign up");
       reset({ ...data, password: "", confirmPassword: "" });
+      return;
+    }
+
+    if (result?.needsConfirmation) {
+      toast.success("Please check your email to confirm your account.");
+      router.push("/login");
+    } else {
+      toast.success("Account created successfully!");
+      reset();
+      router.push("/dashboard");
     }
   };
 

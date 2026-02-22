@@ -6,14 +6,14 @@ import { Label } from "@/components/ui/label";
 import { getDefaultLoginValues } from "@/utils/helper/defaultValues";
 import { loginSchema, LoginFormData } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { cn } from "@/utils/cn";
 import { ArrowBigRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
-import { useAuth } from "@/hook/useAuth";
 import { AuthSignInProps } from "@/types/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { loginAction } from "./actions";
 
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,22 +25,29 @@ const LogInPage = () => {
   });
 
   const router = useRouter();
-
-  const { handleLogin } = useAuth();
+  const searchParams = useSearchParams();
 
   const onSubmit = async (data: AuthSignInProps) => {
-    try {
-      await handleLogin(data);
-      reset();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Login failed";
+    const result = await loginAction(data);
 
-      toast.error(message);
-      if (message.toLowerCase().includes("invalid")) {
-        reset({ ...data, password: "" });
-      }
+    reset();
+
+    if (result?.success) {
+      reset();
+
+      toast.success("Login successful!");
+      router.push("/dashboard");
+    } else {
+      toast.error(result?.error || "Login failed");
+      reset({ ...data, password: "" });
     }
   };
+
+  useEffect(() => {
+    if (searchParams.get("reset") === "success") {
+      toast.success("Password reset successful!");
+    }
+  }, [searchParams]);
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>
     cn(
