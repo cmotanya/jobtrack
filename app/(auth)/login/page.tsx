@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { getDefaultLoginValues } from "@/utils/helper/defaultValues";
 import { loginSchema, LoginFormData } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { cn } from "@/utils/cn";
 import { ArrowBigRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { AuthSignInProps } from "@/types/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { loginAction } from "./actions";
 
@@ -25,7 +25,6 @@ const LogInPage = () => {
   });
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const onSubmit = async (data: AuthSignInProps) => {
     const result = await loginAction(data);
@@ -40,13 +39,6 @@ const LogInPage = () => {
       reset({ ...data, password: "" });
     }
   };
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("reset") === "success") {
-      toast.success("Password reset successful!");
-    }
-  }, [searchParams]);
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>
     cn(
