@@ -13,10 +13,13 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { resetPasswordAction } from "./actions";
+import { useRouter } from "next/navigation";
 
 const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const router = useRouter();
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({
@@ -31,6 +34,8 @@ const ResetPasswordPage = () => {
     toast.success("Password reset successfully!");
 
     reset();
+
+    router.push("/login");
   };
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>

@@ -36,6 +36,7 @@ const ForgotPasswordPage = () => {
 
     sessionStorage.setItem("reset-email", data.email!);
     toast.success("Please check your email for reset code.");
+    router.push("/verify-otp");
   };
 
   const inputClassName = (hasError: boolean, isTouched: boolean) =>

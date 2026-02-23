@@ -6,9 +6,7 @@ import { AuthForgotPasswordProps } from "@/types/auth";
 export async function forgotPasswordAction({ email }: AuthForgotPasswordProps) {
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: process.env.NEXT_PUBLIC_APP_URL + "/verify-otp",
-  });
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
 
   if (error) {
     return { success: false, error: error.message };

@@ -72,7 +72,7 @@ export const resetPasswordSchema = z
 export const verifyOTPSchema = z.object({
   otp: z
     .string()
-    .min(6, { message: "OTP must be at least 6 characters" })
+    .min(8, { message: "OTP must be at least 8 characters" })
     .regex(/^[0-9]+$/, { message: "OTP must contain only numbers" }),
 });
 

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { AuthVerifyOTPProps } from "@/types/auth";
 import { getDefaultVerifyOTPValues } from "@/utils/helper/defaultValues";
 import { VerifyOTPFormData, verifyOTPSchema } from "@/utils/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,8 +72,8 @@ const VerifyOTPPage = () => {
                 id={field.name}
                 type="text"
                 inputMode="numeric"
-                maxLength={6}
-                placeholder="123456"
+                maxLength={8}
+                placeholder="12345678"
                 autoComplete="one-time-code"
                 disabled={formState.isSubmitting}
                 className={inputClassName(
