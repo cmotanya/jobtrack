@@ -1,4 +1,4 @@
-import { JobFormData } from "@/utils/zodSchema";
+import { JobFormData } from "@/helpers/zodSchema";
 import { UseFormReset } from "react-hook-form";
 
 export type HandleStartDateProps = {

@@ -2,7 +2,7 @@ import { HandleStartDateProps } from "@/types/dashboard";
 
 export const today = new Date().toISOString().split("T")[0];
 
-const nextDue = new Date().setDate(new Date(today).getDate() + 3);
+const nextDue = new Date().setDate(new Date(today).getDate() + 1);
 
 export const nextDueDate = new Date(nextDue).toISOString().split("T")[0];
 

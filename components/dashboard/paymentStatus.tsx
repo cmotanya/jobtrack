@@ -5,36 +5,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { jobStatus } from "@/data/Dashboard/jobStatus";
-import { JobStatusTypes } from "@/types/dashboard";
-import { cn } from "@/utils/cn";
+import { paymentStatus } from "@/data/Dashboard/jobStatus";
+import { cn } from "@/lib/utils";
+import { PaymentStatusTypes } from "@/types/dashboard";
 
-type JobProgressProps = {
-  value: JobStatusTypes;
-  onChange: (value: JobStatusTypes) => void;
+type PaymentStatusProps = {
+  value: PaymentStatusTypes;
+  onChange: (value: PaymentStatusTypes) => void;
 };
 
-const JobProgress = ({ value, onChange }: JobProgressProps) => {
+const PaymentStatus = ({ value, onChange }: PaymentStatusProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger>
-        <SelectValue placeholder="Select job progress">
+        <SelectValue placeholder="Select payment status">
           {value && (
             <div className="flex items-center gap-2 tracking-tight">
               <span
                 className={cn(
                   "size-2.5 rounded-full",
-                  jobStatus.find((s) => s.value === value)?.color,
+                  paymentStatus.find((s) => s.value === value)?.color,
                 )}
               />
-              {jobStatus.find((s) => s.value === value)?.label}
+              {paymentStatus.find((s) => s.value === value)?.label}
             </div>
           )}
         </SelectValue>
       </SelectTrigger>
 
       <SelectContent>
-        {jobStatus.map((status) => (
+        {paymentStatus.map((status) => (
           <SelectItem key={status.value} value={status.value}>
             <div className="flex items-center gap-2 tracking-tight">
               <span className={cn("size-2.5 rounded-full", status.color)} />
@@ -47,4 +47,4 @@ const JobProgress = ({ value, onChange }: JobProgressProps) => {
   );
 };
 
-export default JobProgress;
+export default PaymentStatus;

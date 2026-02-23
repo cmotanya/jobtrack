@@ -1,13 +1,12 @@
 "use client";
 
-import CreateJobDialog from "../components/dashboard/createJobDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobProps } from "@/types/dashboard";
-import { jobStats } from "@/utils/jobStats";
+import { jobStats } from "@/helpers/jobStats";
 import { Download, Filter, Unplug, Workflow } from "lucide-react";
 import { useState } from "react";
-import { formatCurrency } from "../../utils/helper/formatCurrency";
+import { formatCurrency } from "../../helpers/formatCurrency";
 import {
   Table,
   TableBody,
@@ -16,55 +15,50 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CreateJobDialog from "@/components/dashboard/createJobDialog";
+import { useUserDisplay } from "@/helpers/useUserDisplay";
 
 export default function DashboardPage() {
   const [jobs, setJobs] = useState<JobProps[]>([]);
+  const { first_name } = useUserDisplay();
 
   const stats = jobStats(jobs);
 
   return (
-    <section className="min-h-screen pb-14" id="dashboard">
-      <div className="relative space-y-6 overflow-hidden px-4 pt-10 pb-20">
-        <div
-          className="absolute inset-0 -z-50"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(0, 0, 0, 0.05) 0.5px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0.5px, transparent 1px)
-              `,
-            backgroundSize: "25px 25px",
-          }}
-        />
-        <div className="space-y-3">
-          <h1 className="text-5xl font-bold">
+    <section className="my-12 min-h-screen space-y-8">
+      <div className="mb-14 space-y-7 px-4">
+        <div className="space-y-0.5">
+          <p className="text-xs tracking-widest">Dashboard</p>
+          <h1 className="text-3xl font-bold">
             Welcome back,{" "}
             <span className="relative">
               <span className="from-success relative z-10 bg-linear-to-r via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-                Cornelius
+                {first_name}
               </span>
               <span className="absolute -bottom-0.5 left-0 h-3 w-full bg-linear-to-r from-emerald-200 via-teal-200 to-cyan-200 opacity-50 blur-sm" />
             </span>
+            👋
           </h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             Here is what is happening on your dashboard today.
           </p>
         </div>
 
-        <div className="flex flex-col justify-center gap-3 px-5">
+        <div className="flex justify-center gap-3 px-5 pt-5">
           <CreateJobDialog />
 
           <Button
             variant="outline"
-            className="hover:bg-muted/60 flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all"
+            className="hover:bg-muted/60 bg-muted flex items-center justify-center gap-2 rounded-xl py-6 font-semibold uppercase transition-all"
           >
             <Workflow size={20} />
-            Workflow Guidelines
+            Workflow
           </Button>
         </div>
       </div>
 
       {/* Today's Jobs */}
-      <div className="py-14">
+      <div>
         <div className="px-4">
           <h2 className="text-3xl font-bold">Today&apos;s Focus</h2>
           <p className="text-muted-foreground text-sm">
@@ -164,7 +158,7 @@ export default function DashboardPage() {
                   </p>
                 </div>
 
-                <div className="w-full px-7">
+                <div className="w-full px-4">
                   <CreateJobDialog />
                 </div>
               </div>

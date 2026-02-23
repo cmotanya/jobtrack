@@ -4,7 +4,7 @@ export type AuthSignInProps = {
 };
 
 export type AuthSignUpProps = {
-  fullName: string;
+  full_name: string;
   email: string;
   password: string;
   confirmPassword: string;

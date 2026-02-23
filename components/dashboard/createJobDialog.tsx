@@ -20,7 +20,7 @@ const CreateJobDialog = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <div className="w-full">
-          <Button className="group bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-7.5 text-lg font-semibold transition-all hover:scale-105 active:scale-95">
+          <Button className="group text-primary-foreground bg-primary flex items-center justify-center gap-2 py-6 uppercase transition-all hover:scale-105 active:scale-95">
             Create New Job{" "}
             <ArrowBigRight
               size={20}
@@ -30,12 +30,12 @@ const CreateJobDialog = () => {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="max-w-3xl space-y-4 overflow-y-auto">
-        <DialogHeader className="pt-6">
-          <DialogTitle className="text-2xl font-semibold">
+      <DialogContent className="max-w-3xl overflow-auto p-0 pt-4">
+        <DialogHeader className="mx-4 -space-y-2 tracking-tight">
+          <DialogTitle className="text-xl font-bold uppercase">
             Create New Job
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs leading-tight text-balance">
             Add a new job to your workspace with all the necessary details.
           </DialogDescription>
         </DialogHeader>

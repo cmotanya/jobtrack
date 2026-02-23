@@ -7,19 +7,19 @@ export const jobSchema = z
     amount: z.number().gt(0, { message: "Amount must be greater than 0" }),
     location: z.string().min(1, { message: "Location is required" }),
 
-    status: z.enum([
+    job_progress: z.enum([
       "scheduled",
       "in-progress",
       "on-hold",
       "completed",
       "cancelled",
     ]),
-    paymentStatus: z.enum(["unpaid", "partial", "paid"]),
+    payment_status: z.enum(["unpaid", "partial", "paid"]),
 
-    startDate: z.string().min(1, { message: "Start date is required" }),
-    dueDate: z.string().min(1, { message: "Due date is required" }),
+    start_date: z.string().min(1, { message: "Start date is required" }),
+    due_date: z.string().min(1, { message: "Due date is required" }),
   })
-  .refine((data) => new Date(data.dueDate) > new Date(data.startDate), {
+  .refine((data) => new Date(data.due_date) >= new Date(data.start_date), {
     message: "Due date must be after start date",
     path: ["dueDate"],
   });
@@ -35,7 +35,7 @@ export const loginSchema = z.object({
 
 export const signUpSchema = z
   .object({
-    fullName: z
+    full_name: z
       .string()
       .min(2, { message: "Name must be at least 2 character" }),
     email: z

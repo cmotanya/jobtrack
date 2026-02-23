@@ -1,5 +1,5 @@
 import { NewJobSubmitHandleProps } from "@/types/dashboard";
-import { getDefaultEmptyJobValues } from "@/utils/helper/defaultValues";
+import { getDefaultEmptyJobValues } from "@/helpers/defaultValues";
 
 export const handleNewJobSubmit = async ({
   data,

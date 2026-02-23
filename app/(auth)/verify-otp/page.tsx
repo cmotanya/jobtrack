@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { getDefaultVerifyOTPValues } from "@/utils/helper/defaultValues";
-import { VerifyOTPFormData, verifyOTPSchema } from "@/utils/zodSchema";
+import { getDefaultVerifyOTPValues } from "@/helpers/defaultValues";
+import { VerifyOTPFormData, verifyOTPSchema } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { verifyOTPAction } from "./actions";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { ArrowBigLeft } from "lucide-react";
 
 const VerifyOTPPage = () => {
   const router = useRouter();
@@ -24,16 +26,16 @@ const VerifyOTPPage = () => {
   const onSubmit = async (data: VerifyOTPFormData) => {
     const email = sessionStorage.getItem("reset-email");
 
-    const result = await verifyOTPAction({ email: email!, otp: data.otp });
-
     if (!email) {
       toast.error("Session expired. Please request a new code.");
-      router.push("/reset-password");
+      router.push("/forgot-password");
       return;
     }
 
+    const result = await verifyOTPAction({ email: email!, otp: data.otp });
+
     if (!result.success) {
-      toast.error(result.error || "An error occurred during sign up");
+      toast.error(result.error || "Failed to verify OTP.");
       return;
     }
 
@@ -41,68 +43,103 @@ const VerifyOTPPage = () => {
     router.push("/reset-password");
   };
 
-  const inputClassName = (hasError: boolean, isTouched: boolean) =>
+  const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
-      "bg-muted focus-visible:border-muted-foreground/50 py-6 text-sm border border-muted-foreground/50 leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 focus-visible:ring-0 focus-visible:ring-offset-0",
+      "h-10 bg-white text-center text-lg font-bold tracking-[0.8em] text-zinc-800 placeholder:text-muted-foreground/50 placeholder:tracking-[0.8em] border-muted-foreground/40 focus-visible:ring-0   transition",
       hasError
-        ? "border-2 border-destructive"
-        : isTouched && "border-2 border-success",
+        ? "border-red-400 focus-visible:ring-red-400"
+        : isTouched && "border-success",
     );
+  const fieldLabel = (text: string) => (
+    <Label
+      htmlFor={text}
+      className="text-muted-foreground text-xs font-semibold tracking-wide uppercase"
+    >
+      {text}
+    </Label>
+  );
+
+  const fieldError = (message?: string) =>
+    message ? (
+      <p className="text-destructive text-xs font-medium" role="alert">
+        {message}
+      </p>
+    ) : null;
 
   return (
-    <section className="bg-background space-y-8 rounded-md py-10">
-      <div className="space-y-2 px-5 text-center">
-        <h1 className="text-3xl font-bold whitespace-nowrap">
-          Enter Reset Code
-        </h1>
-        <p className="text-muted-foreground text-sm font-medium text-balance">
-          We&apos;ve sent a 6-digit code to your email. Enter it below.
-        </p>
-      </div>
+    <section className="max-w-md justify-center">
+      <div className="space-y-5">
+        <div className="px-4 text-center tracking-tight">
+          <h1 className="text-3xl font-bold">Enter Reset Code</h1>
+          <p className="text-xs text-balance">
+            We&apos;ve sent a 6-digit code to your email. Enter it below.
+          </p>
+        </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-5">
-        <Controller
-          control={control}
-          name="otp"
-          render={({ field, fieldState }) => (
-            <div className="space-y-1">
-              <Label htmlFor={field.name}>6-Digit Code</Label>
-              <Input
-                {...field}
-                id={field.name}
-                type="text"
-                inputMode="numeric"
-                maxLength={8}
-                placeholder="12345678"
-                autoComplete="one-time-code"
-                disabled={formState.isSubmitting}
-                className={inputClassName(
-                  fieldState.invalid,
-                  fieldState.isTouched,
-                )}
-              />
-              {fieldState.error && (
-                <p
-                  className="text-destructive -mt-1 text-xs font-medium"
-                  role="alert"
-                >
-                  {fieldState.error.message}
-                </p>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          className="mb-10 space-y-4 px-5"
+        >
+          <Controller
+            control={control}
+            name="otp"
+            render={({ field, fieldState }) => (
+              <div className="space-y-1">
+                {fieldLabel("Reset Code")}
+                <Input
+                  {...field}
+                  id={field.name}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={8}
+                  placeholder="12345678"
+                  autoComplete="one-time-code"
+                  disabled={formState.isSubmitting}
+                  className={inputClass(
+                    fieldState.invalid,
+                    fieldState.isTouched,
+                  )}
+                />
+
+                {fieldError(fieldState.error?.message)}
+              </div>
+            )}
+          />
+
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              disabled={formState.isSubmitting}
+              className={cn(
+                "transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
+                !formState.isValid && "cursor-not-allowed opacity-50",
               )}
-            </div>
-          )}
-        />
+            >
+              {formState.isSubmitting ? "Verifying..." : "Verify Code"}
+            </Button>
+          </div>
+        </form>
 
-        <div className="flex justify-end">
+        <div className="space-y-6 px-5">
+          <p className="text-muted-foreground text-xs">
+            Didn&apos;t receive the code?{" "}
+            <Link href="/reset-password" className="text-primary font-semibold">
+              Resend
+            </Link>
+          </p>
+
           <Button
-            type="submit"
-            disabled={formState.isSubmitting}
-            className="py-6.5 font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+            variant="outline"
+            onClick={() => router.push("/login")}
+            className="py-5"
           >
-            {formState.isSubmitting ? "Verifying..." : "Verify Code"}
+            {" "}
+            <ArrowBigLeft />
+            Back to Login
           </Button>
         </div>
-      </form>
+      </div>
     </section>
   );
 };

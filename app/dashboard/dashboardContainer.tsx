@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import SideBar from "../components/dashboard/sidebar";
 import Header from "./header/page";
+import SideBar from "./header/sidebar";
 
 export default function DashboardContainer({
   children,

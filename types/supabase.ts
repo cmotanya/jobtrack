@@ -4,235 +4,349 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
-export interface Database {
+export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.1"
+  }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
-      company: {
-        Row: {
-          id: string;
-          name: string;
-          description?: string | null;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          company_id: string;
-          name: string;
-          description?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          company_id: string;
-          name: string;
-          description?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
-
-      profiles: {
-        Row: {
-          id: string;
-          company_id: string;
-          full_name: string | null;
-          avatar_url: string | null;
-          role: string;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          company_id: string;
-          full_name?: string | null;
-          avatar_url?: string | null;
-          role?: string;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          company_id?: string;
-          full_name?: string | null;
-          avatar_url?: string | null;
-          role?: string;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelationship: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "profiles_company_id_fkey";
-            columns: ["company_id"];
-            isOneToOne: false;
-            referencedRelationship: "company";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-
       clients: {
         Row: {
-          id: string;
-          company_id: string;
-          full_name: string;
-          phone: string | null;
-          location: string | null;
-          created_at: string;
-          updated_at: string;
-        };
+          company_id: string
+          created_at: string | null
+          full_name: string
+          id: string
+          location: string | null
+          phone: string | null
+          updated_at: string | null
+        }
         Insert: {
-          id?: string;
-          company_id: string;
-          full_name: string;
-          phone?: string | null;
-          location?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
+          company_id: string
+          created_at?: string | null
+          full_name: string
+          id?: string
+          location?: string | null
+          phone?: string | null
+          updated_at?: string | null
+        }
         Update: {
-          id?: string;
-          company_id?: string;
-          full_name?: string;
-          phone?: string | null;
-          location?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
+          company_id?: string
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          location?: string | null
+          phone?: string | null
+          updated_at?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "clients_company_id_fkey";
-            column: ["company_id"];
-            isOnToOne: false;
-            referencedRelationship: "company";
-            referencedColumns: ["id"];
+            foreignKeyName: "clients_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company"
+            referencedColumns: ["id"]
           },
-        ];
-      };
-
+        ]
+      }
+      company: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          full_name: string
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          full_name: string
+          id?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          full_name?: string
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       jobs: {
         Row: {
-          id: string;
-          company_id: string;
-          client_id: string;
-          assigned_to: string;
-          job_number: string;
-          title: string;
-          job_progress?:
-            | "scheduled"
-            | "in-progress"
-            | "on-hold"
-            | "completed"
-            | "cancelled";
-          payment_status?: "unpaid" | "partial" | "paid";
-          amount: number | null;
-          startDate: string | null;
-          dueDate: string | null;
-          created_at: string;
-          updated_at: string;
-        };
+          amount: number
+          assigned_to: string | null
+          client_id: string
+          company_id: string
+          created_at: string | null
+          due_date: string
+          id: string
+          job_number: string
+          job_progress: string
+          payment_status: string
+          start_date: string
+          title: string
+          updated_at: string | null
+        }
         Insert: {
-          id?: string;
-          company_id: string;
-          client_id: string;
-          assigned_to: string;
-          job_number: string;
-          title: string;
-          job_progress?:
-            | "scheduled"
-            | "in-progress"
-            | "on-hold"
-            | "completed"
-            | "cancelled";
-          payment_status?: "unpaid" | "partial" | "paid";
-          amount?: number | null;
-          startDate?: string | null;
-          dueDate?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
+          amount?: number
+          assigned_to?: string | null
+          client_id: string
+          company_id: string
+          created_at?: string | null
+          due_date: string
+          id?: string
+          job_number: string
+          job_progress?: string
+          payment_status?: string
+          start_date: string
+          title: string
+          updated_at?: string | null
+        }
         Update: {
-          id?: string;
-          company_id?: string;
-          client_id?: string;
-          assigned_to?: string;
-          job_number?: string;
-          title?: string;
-          job_progress?:
-            | "scheduled"
-            | "in-progress"
-            | "on-hold"
-            | "completed"
-            | "cancelled";
-          payment_status?: "unpaid" | "partial" | "paid";
-          amount?: number | null;
-          startDate?: string | null;
-          dueDate?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
+          amount?: number
+          assigned_to?: string | null
+          client_id?: string
+          company_id?: string
+          created_at?: string | null
+          due_date?: string
+          id?: string
+          job_number?: string
+          job_progress?: string
+          payment_status?: string
+          start_date?: string
+          title?: string
+          updated_at?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "jobs_company_id_fkey";
-            column: ["company_id"];
-            isOneToOne: false;
-            referencedRelationship: "company";
-            referencedColumns: ["id"];
+            foreignKeyName: "jobs_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "jobs_clients_id_fkey";
-            column: ["client_id"];
-            isOneToOne: false;
-            referencedRelationship: "clients";
-            referencedColumns: ["id"];
+            foreignKeyName: "jobs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "jobs_assigned_to_fkey";
-            column: ["assigned_to"];
-            isOneToOne: false;
-            referencedRelationship: "profiles";
-            referencedColumns: ["id"];
+            foreignKeyName: "jobs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company"
+            referencedColumns: ["id"]
           },
-        ];
-      };
-    };
-  };
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          company_id: string | null
+          created_at: string | null
+          full_name: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
-export type Company = Database["public"]["Tables"]["company"]["Row"];
-export type InsertCompany = Database["public"]["Tables"]["company"]["Insert"];
-export type UpdateCompany = Database["public"]["Tables"]["company"]["Update"];
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-export type InsertProfile = Database["public"]["Tables"]["profiles"]["Insert"];
-export type UpdateProfile = Database["public"]["Tables"]["profiles"]["Update"];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
-export type Client = Database["public"]["Tables"]["clients"]["Row"];
-export type InsertClient = Database["public"]["Tables"]["clients"]["Insert"];
-export type UpdateClient = Database["public"]["Tables"]["clients"]["Update"];
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
 
-export type Job = Database["public"]["Tables"]["jobs"]["Row"];
-export type InsertJob = Database["public"]["Tables"]["jobs"]["Insert"];
-export type UpdateJob = Database["public"]["Tables"]["jobs"]["Update"];
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
 
-// Instead of manual strings, extract it directly from the Database type:
-export type JobStatus =
-  Database["public"]["Tables"]["jobs"]["Row"]["job_progress"];
-export type PaymentStatus =
-  Database["public"]["Tables"]["jobs"]["Row"]["payment_status"];
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
 
-// enum types
-// export type JobStatus = "scheduled" | "in-progress" | "completed" | "cancelled";
-// export type PaymentStatus = "unpaid" | "partial" | "paid";
-export type UserRole = "admin" | "member";
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
+  public: {
+    Enums: {},
+  },
+} as const

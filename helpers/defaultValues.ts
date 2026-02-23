@@ -1,11 +1,11 @@
-import { today, nextDueDate } from "@/app/components/dashboard/datePicker";
+import { today, nextDueDate } from "@/components/dashboard/datePicker";
 import {
   ForgotPasswordFormData,
   JobFormData,
   LoginFormData,
   ResetPasswordFormData,
   SignUpFormData,
-} from "../zodSchema";
+} from "./zodSchema";
 
 export const getDefaultLoginValues = (): LoginFormData => {
   return {
@@ -16,7 +16,7 @@ export const getDefaultLoginValues = (): LoginFormData => {
 
 export const getDefaultSignUpValues = (): SignUpFormData => {
   return {
-    fullName: "",
+    full_name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,11 +28,11 @@ export const getDefaultEmptyJobValues = (): JobFormData => {
     title: "",
     client: "",
     location: "",
-    status: "in-progress",
-    paymentStatus: "unpaid",
+    job_progress: "in-progress",
+    payment_status: "unpaid",
     amount: 0,
-    startDate: today,
-    dueDate: nextDueDate,
+    start_date: today,
+    due_date: nextDueDate,
   };
 };
 
