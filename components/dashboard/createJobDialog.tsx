@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import JobForm from "./jobForm";
-import { ArrowBigRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CreateJobDialog = () => {
@@ -20,12 +19,8 @@ const CreateJobDialog = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <div className="w-full">
-          <Button className="group text-primary-foreground bg-primary flex items-center justify-center gap-2 py-6 uppercase transition-all hover:scale-105 active:scale-95">
+          <Button className="py-6.5 uppercase transition-all hover:scale-105 active:scale-95">
             Create New Job{" "}
-            <ArrowBigRight
-              size={20}
-              className="transition-transform group-hover:translate-x-1"
-            />
           </Button>
         </div>
       </DialogTrigger>

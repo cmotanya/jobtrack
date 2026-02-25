@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JobProps } from "@/types/dashboard";
 import { jobStats } from "@/helpers/jobStats";
-import { Download, Filter, Unplug, Workflow } from "lucide-react";
+import { Download, Filter, Unplug } from "lucide-react";
 import { useState } from "react";
 import { formatCurrency } from "../../helpers/formatCurrency";
 import {
@@ -49,9 +49,8 @@ export default function DashboardPage() {
 
           <Button
             variant="outline"
-            className="hover:bg-muted/60 bg-muted flex items-center justify-center gap-2 rounded-xl py-6 font-semibold uppercase transition-all"
+            className="hover:bg-muted/60 py-6 font-semibold uppercase"
           >
-            <Workflow size={20} />
             Workflow
           </Button>
         </div>
