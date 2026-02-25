@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { SideBarProps } from "@/types/dashboard";
-import { SearchButton } from "@/components/dashboard/searchButton";
+import { SearchButton } from "@/app/dashboard/header/searchButton";
 
 type HeaderProps = Pick<SideBarProps, "setSidebarOpen">;
 

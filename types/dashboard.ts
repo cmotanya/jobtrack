@@ -33,16 +33,14 @@ export type JobFormValues = {
   dueDate: string;
 };
 
-export type NewJobSubmitHandleProps = {
+export type OnJobSubmitProps = {
   data: JobFormData;
   reset: UseFormReset<JobFormData>;
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDialogOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export type OnSubmitJobProps = {
+export type HandleJobSubmitProps = {
   data: JobFormData;
-  reset: UseFormReset<JobFormData>;
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type JobDialogProps = {

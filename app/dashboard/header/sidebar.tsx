@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { SideBarProps } from "@/types/dashboard";
-import UserProfile from "@/components/dashboard/userProfile";
+import UserProfile from "@/app/dashboard/header/userProfile";
 import { cn } from "@/lib/utils";
 
 const SideBar = ({ sidebarOpen, setSidebarOpen }: SideBarProps) => {

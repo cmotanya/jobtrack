@@ -6,11 +6,7 @@ import JobProgress from "./jobProgress";
 import PaymentStatus from "./paymentStatus";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import {
-  JobDialogProps,
-  JobStatusTypes,
-  PaymentStatusTypes,
-} from "@/types/dashboard";
+import { JobDialogProps } from "@/types/dashboard";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -36,6 +32,10 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
       },
       mode: "onSubmit",
     });
+
+  const onSubmit = async (data: JobFormData) => {
+    await OnJobSubmit({ data, reset, setIsDialogOpen });
+  };
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -63,9 +63,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
 
   return (
     <form
-      onSubmit={handleSubmit((data) =>
-        OnJobSubmit({ data, reset, setIsDialogOpen }),
-      )}
+      onSubmit={handleSubmit(onSubmit)}
       className="bg-muted flex flex-col gap-2.5 px-6 py-4"
     >
       {/* title */}
