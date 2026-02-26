@@ -2,15 +2,18 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { AuthSignInProps } from "@/types/auth";
+import { revalidatePath } from "next/cache";
 
 export async function loginAction(authData: AuthSignInProps) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithPassword(authData);
+  const { error } = await supabase.auth.signInWithPassword(authData);
 
   if (error) {
-    return { success: false, error: error.message, data };
+    return { success: false, error: error.message };
   }
 
-  return { success: true, data };
+  revalidatePath("/dashboard", "layout");
+
+  return { success: true };
 }

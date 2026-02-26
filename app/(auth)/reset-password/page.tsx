@@ -12,7 +12,7 @@ import {
 } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LockKeyhole } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { resetPasswordAction } from "./actions";
@@ -24,10 +24,6 @@ const ResetPasswordPage = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    router.prefetch("/login");
-  }, [router]);
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({

@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { AuthResetPasswordProps } from "@/types/auth";
+import { revalidatePath } from "next/cache";
 
 export async function resetPasswordAction(data: AuthResetPasswordProps) {
   const supabase = await createClient();
@@ -15,6 +16,8 @@ export async function resetPasswordAction(data: AuthResetPasswordProps) {
   }
 
   await supabase.auth.signOut();
+
+  revalidatePath("/login", "layout");
 
   return { success: true };
 }

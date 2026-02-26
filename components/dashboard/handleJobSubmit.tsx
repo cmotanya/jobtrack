@@ -2,10 +2,11 @@
 
 import { HandleJobSubmitProps } from "@/types/dashboard";
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
-export const handleJobSubmit = async ({
+const handleJobSubmit = async ({
   data,
-}: HandleJobSubmitProps): Promise<void> => {
+}: HandleJobSubmitProps): Promise<{ jobId: string }> => {
   const supabase = await createClient();
 
   const {
@@ -17,16 +18,16 @@ export const handleJobSubmit = async ({
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("company_id")
-    .eq("id", user?.id)
+    .eq("id", user.id)
     .single();
 
   if (profileError || !profile?.company_id) {
-    throw new Error("Could not get company id.");
+    throw new Error("Could not retrieve company for this user.");
   }
 
   const company_id = profile.company_id;
 
-  // find or create job
+  // finding or creating client for this job
   const { data: existingClient } = await supabase
     .from("clients")
     .select("id")
@@ -50,36 +51,36 @@ export const handleJobSubmit = async ({
       .single();
 
     if (clientError || !newClient) {
-      console.error("CLIENT INSERT ERROR:", clientError);
       throw new Error(clientError?.message || "Could not create client.");
     }
 
     client_id = newClient.id;
   }
 
-  // generate job number
-  const { count } = await supabase
+  // insert job; job_number is assigned by DB trigger
+  const { data: newJob, error: jobError } = await supabase
     .from("jobs")
-    .select("*", { count: "exact", head: true })
-    .eq("company_id", company_id);
+    .insert({
+      title: data.title.trim(),
+      client_id,
+      company_id,
+      assigned_to: user.id,
+      amount: data.amount,
+      job_progress: data.job_progress,
+      payment_status: data.payment_status,
+      start_date: data.start_date,
+      due_date: data.due_date,
+    })
+    .select("id")
+    .single();
 
-  const job_number = `JOB-${String((count ?? 0) + 1).padStart(3, "0")}`;
+  if (jobError || !newJob) {
+    throw new Error(jobError?.message ?? "Could not create job.");
+  }
 
-  // insert job
-  const { error: jobError } = await supabase.from("jobs").insert({
-    title: data.title.trim(),
-    client_id,
-    company_id,
-    assigned_to: user.id,
-    amount: data.amount,
-    job_progress: data.job_progress,
-    payment_status: data.payment_status,
-    start_date: data.start_date,
-    due_date: data.due_date,
-    job_number,
-  });
+  revalidatePath("/dashboard");
 
-  if (jobError) throw new Error(jobError.message);
+  return { jobId: newJob.id };
 };
 
 export default handleJobSubmit;

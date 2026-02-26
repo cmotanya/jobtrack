@@ -125,7 +125,7 @@ export type Database = {
           created_at?: string | null
           due_date: string
           id?: string
-          job_number: string
+          job_number?: string
           job_progress?: string
           payment_status?: string
           start_date: string

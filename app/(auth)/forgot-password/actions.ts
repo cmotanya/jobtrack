@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { AuthForgotPasswordProps } from "@/types/auth";
+import { revalidatePath } from "next/cache";
 
 export async function forgotPasswordAction({ email }: AuthForgotPasswordProps) {
   const supabase = await createClient();
@@ -11,6 +12,8 @@ export async function forgotPasswordAction({ email }: AuthForgotPasswordProps) {
   if (error) {
     return { success: false, error: error.message };
   }
+
+  revalidatePath("/verify-otp", "layout");
 
   return {
     success: true,

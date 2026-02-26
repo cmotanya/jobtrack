@@ -21,12 +21,11 @@ export async function SignUpAction(authData: AuthSignUpProps) {
 
   // check if email confirmation is required
   if (data.user && !data.session) {
-    return { success: true, needsConfirmation: true, user: data.user };
+    return { success: true, needsConfirmation: true };
   }
 
   return {
     success: true,
     needsConfirmation: false,
-    data,
   };
 }

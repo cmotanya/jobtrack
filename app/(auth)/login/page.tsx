@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { AuthSignInProps } from "@/types/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { loginAction } from "./actions";
 import { cn } from "@/lib/utils";
@@ -27,10 +27,6 @@ const LogInPage = () => {
   });
 
   const router = useRouter();
-
-  useEffect(() => {
-    router.prefetch("/dashboard");
-  }, [router]);
 
   const onSubmit = async (data: AuthSignInProps) => {
     const result = await loginAction(data);

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "./header/page";
 import SideBar from "./header/sidebar";
 
-export default function DashboardContainer({
+export default function DashboardClient({
   children,
 }: {
   children: React.ReactNode;

@@ -6,15 +6,7 @@ import { Label } from "@/components/ui/label";
 import { getDefaultSignUpValues } from "@/helpers/defaultValues";
 import { SignUpFormData, signUpSchema } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ArrowBigRight,
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  Mail,
-  User,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Eye, EyeOff, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -33,8 +25,6 @@ const SignUpPage = () => {
     mode: "onChange",
   });
 
-  const router = useRouter();
-
   const onSubmit = async (data: AuthSignUpProps) => {
     const result = await SignUpAction(data);
 
@@ -47,7 +37,6 @@ const SignUpPage = () => {
     if (result.success) {
       toast.success("Account created successfully!");
       reset();
-      router.push("/dashboard");
     }
   };
 
@@ -248,13 +237,9 @@ const SignUpPage = () => {
                 !formState.isValid && "cursor-not-allowed opacity-50",
               )}
             >
-              {formState.isSubmitting ? (
-                "Creating Account..."
-              ) : (
-                <span className="flex items-center gap-3">
-                  Create Account <ArrowBigRight size={20} />
-                </span>
-              )}
+              {formState.isSubmitting
+                ? "Creating Account..."
+                : "Create Account"}
             </Button>
           </div>
         </form>

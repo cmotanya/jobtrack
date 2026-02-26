@@ -1,5 +1,5 @@
 import { AuthProvider } from "@/context/AuthContext";
-import DashboardContainer from "./dashboardContainer";
+import DashboardClient from "./dashboardClient";
 
 export default function DashboardLayout({
   children,
@@ -8,7 +8,7 @@ export default function DashboardLayout({
 }) {
   return (
     <AuthProvider>
-      <DashboardContainer>{children}</DashboardContainer>
+      <DashboardClient>{children}</DashboardClient>
     </AuthProvider>
   );
 }

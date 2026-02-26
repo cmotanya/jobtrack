@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/table";
 import CreateJobDialog from "@/components/dashboard/createJobDialog";
 import { useUserDisplay } from "@/helpers/useUserDisplay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const [jobs, setJobs] = useState<JobProps[]>([]);
+  const [jobs] = useState<JobProps[]>([]);
   const { first_name } = useUserDisplay();
 
   const stats = jobStats(jobs);
@@ -29,13 +30,19 @@ export default function DashboardPage() {
       <div className="mb-14 space-y-7 px-4">
         <div className="space-y-0.5">
           <p className="text-xs tracking-widest">Dashboard</p>
-          <h1 className="text-3xl font-bold">
+          <h1 className="inline-block text-3xl font-bold">
             Welcome back,{" "}
             <span className="relative">
-              <span className="from-success relative z-10 bg-linear-to-r via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-                {first_name}
-              </span>
-              <span className="absolute -bottom-0.5 left-0 h-3 w-full bg-linear-to-r from-emerald-200 via-teal-200 to-cyan-200 opacity-50 blur-sm" />
+              {first_name ? (
+                <>
+                  <span className="from-success relative z-10 bg-linear-to-r via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                    {first_name}
+                  </span>
+                  <span className="absolute -bottom-0.5 left-0 h-3 w-full bg-linear-to-r from-emerald-200 via-teal-200 to-cyan-200 opacity-50 blur-sm" />
+                </>
+              ) : (
+                <Skeleton className="bg-muted-foreground/30 inline-block h-8 w-32" />
+              )}
             </span>
             👋
           </h1>

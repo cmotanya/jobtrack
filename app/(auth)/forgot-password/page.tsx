@@ -11,12 +11,11 @@ import {
   forgotPasswordSchema,
 } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowBigLeft, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { forgotPasswordAction } from "./actions";
-import { useEffect } from "react";
 import Link from "next/link";
 
 const ForgotPasswordPage = () => {
@@ -27,10 +26,6 @@ const ForgotPasswordPage = () => {
   });
 
   const router = useRouter();
-
-  useEffect(() => {
-    router.prefetch("/verify-otp");
-  }, [router]);
 
   const onSubmit = async (data: AuthForgotPasswordProps) => {
     const result = await forgotPasswordAction({ email: data.email });
