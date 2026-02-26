@@ -16,11 +16,15 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { resetPasswordAction } from "./actions";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hook/useAuth";
 
 const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const router = useRouter();
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({
@@ -29,29 +33,7 @@ const ResetPasswordPage = () => {
       mode: "onChange",
     });
 
-  const onSubmit = async (data: AuthResetPasswordProps) => {
-    const result = await resetPasswordAction({ ...data });
-
-    const sessionError =
-      result.error?.includes("session") || result.error?.includes("expired");
-
-    if (sessionError) {
-      toast.error("Session expired. Please request a new code.");
-      reset();
-      return;
-    }
-
-    if (result && !result.success) {
-      toast.error(result.error || "Invalid reset code.");
-      return;
-    }
-
-    setIsSuccess(true);
-    toast.success("Password reset successfully!");
-    reset();
-
-    // router.push("/login?reset=true");
-  };
+  const { handleResetPassword } = useAuth();
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -86,7 +68,9 @@ const ResetPasswordPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data) =>
+            handleResetPassword(data, { reset, setIsSuccess }),
+          )}
           noValidate
           className="space-y-4"
         >

@@ -8,12 +8,10 @@ import { loginSchema, LoginFormData } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
-import { AuthSignInProps } from "@/types/auth";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { loginAction } from "./actions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useAuth } from "@/hook/useAuth";
 
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,18 +23,7 @@ const LogInPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: AuthSignInProps) => {
-    const result = await loginAction(data);
-
-    if (result?.success) {
-      toast.success("Login successful!");
-      setIsSuccess(true);
-      reset();
-    } else {
-      toast.error(result?.error || "Login failed");
-      reset({ ...data, password: "" });
-    }
-  };
+  const { handleLogin } = useAuth();
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -71,7 +58,9 @@ const LogInPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data) =>
+            handleLogin(data, { reset, setIsSuccess }),
+          )}
           noValidate
           className="mx-8 flex flex-col gap-2.5"
         >

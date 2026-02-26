@@ -1,3 +1,5 @@
+import { UseFormReset } from "react-hook-form";
+
 export type AuthSignInProps = {
   email: string;
   password: string;
@@ -22,4 +24,18 @@ export type AuthResetPasswordProps = {
 export type AuthVerifyOTPProps = {
   email: string;
   otp: string;
+};
+
+export type AuthOptionSignIn = {
+  reset: UseFormReset<AuthSignInProps>;
+  setIsSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type AuthOptionSignUp = {
+  reset: UseFormReset<AuthSignUpProps>;
+};
+
+export type AuthOptionPasswordReset = {
+  reset: UseFormReset<AuthResetPasswordProps>;
+  setIsSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 };

@@ -14,6 +14,7 @@ import { AuthSignUpProps } from "@/types/auth";
 import { SignUpAction } from "./actions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useAuth } from "@/hook/useAuth";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,20 +26,7 @@ const SignUpPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: AuthSignUpProps) => {
-    const result = await SignUpAction(data);
-
-    if (!result?.success) {
-      toast.error(result?.error || "An error occurred during sign up");
-      reset({ ...data, password: "", confirmPassword: "" });
-      return;
-    }
-
-    if (result.success) {
-      toast.success("Account created successfully!");
-      reset();
-    }
-  };
+  const { handleSignUp } = useAuth();
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -71,7 +59,7 @@ const SignUpPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data) => handleSignUp(data, { reset }))}
           noValidate
           className="mx-8 flex flex-col gap-2.5"
         >

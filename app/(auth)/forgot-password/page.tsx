@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { AuthForgotPasswordProps } from "@/types/auth";
 import { getDefaultForgotPasswordValues } from "@/helpers/defaultValues";
 import {
   ForgotPasswordFormData,
@@ -13,9 +12,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { forgotPasswordAction } from "./actions";
 import Link from "next/link";
+import { useAuth } from "@/hook/useAuth";
 
 const ForgotPasswordPage = () => {
   const { control, handleSubmit, formState } = useForm<ForgotPasswordFormData>({
@@ -24,17 +22,7 @@ const ForgotPasswordPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: AuthForgotPasswordProps) => {
-    const result = await forgotPasswordAction({ email: data.email });
-
-    if (!result.success) {
-      toast.error(result.error || "Failed to send reset code.");
-      return;
-    }
-
-    sessionStorage.setItem("reset-email", data.email!);
-    toast.success("Please check your email for reset code.");
-  };
+  const { handleForgotPassword } = useAuth();
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -72,7 +60,7 @@ const ForgotPasswordPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleForgotPassword)}
           noValidate
           className="mx-8 mb-10 flex flex-col gap-4"
         >

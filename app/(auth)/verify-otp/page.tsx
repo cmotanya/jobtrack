@@ -13,6 +13,7 @@ import { verifyOTPAction } from "./actions";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
+import { useAuth } from "@/hook/useAuth";
 
 const VerifyOTPPage = () => {
   const router = useRouter();
@@ -23,25 +24,7 @@ const VerifyOTPPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: VerifyOTPFormData) => {
-    const email = sessionStorage.getItem("reset-email");
-
-    if (!email) {
-      toast.error("Session expired. Please request a new code.");
-      router.push("/forgot-password");
-      return;
-    }
-
-    const result = await verifyOTPAction({ email: email!, otp: data.otp });
-
-    if (!result.success) {
-      toast.error(result.error || "Failed to verify OTP.");
-      return;
-    }
-
-    sessionStorage.removeItem("reset-email");
-    router.push("/reset-password");
-  };
+  const { handleVerifyOTP } = useAuth();
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
     cn(
@@ -77,7 +60,7 @@ const VerifyOTPPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data) => handleVerifyOTP(data))}
           noValidate
           className="mb-10 space-y-4 px-5"
         >
