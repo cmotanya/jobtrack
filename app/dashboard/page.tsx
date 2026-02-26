@@ -58,7 +58,7 @@ export default function DashboardPage() {
             variant="outline"
             className="hover:bg-muted/60 py-6 font-semibold uppercase"
           >
-            Workflow
+            View All Jobs
           </Button>
         </div>
       </div>

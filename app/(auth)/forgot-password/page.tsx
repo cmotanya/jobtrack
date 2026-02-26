@@ -12,7 +12,6 @@ import {
 } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { forgotPasswordAction } from "./actions";
@@ -25,19 +24,16 @@ const ForgotPasswordPage = () => {
     mode: "onChange",
   });
 
-  const router = useRouter();
-
   const onSubmit = async (data: AuthForgotPasswordProps) => {
     const result = await forgotPasswordAction({ email: data.email });
 
     if (!result.success) {
-      toast.error(result.error);
+      toast.error(result.error || "Failed to send reset code.");
       return;
     }
 
     sessionStorage.setItem("reset-email", data.email!);
     toast.success("Please check your email for reset code.");
-    router.push("/verify-otp");
   };
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>

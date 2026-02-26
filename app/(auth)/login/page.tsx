@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { getDefaultLoginValues } from "@/helpers/defaultValues";
 import { loginSchema, LoginFormData } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { AuthSignInProps } from "@/types/auth";
@@ -26,13 +25,10 @@ const LogInPage = () => {
     mode: "onChange",
   });
 
-  const router = useRouter();
-
   const onSubmit = async (data: AuthSignInProps) => {
     const result = await loginAction(data);
 
     if (result?.success) {
-      router.push("/dashboard");
       toast.success("Login successful!");
       setIsSuccess(true);
       reset();

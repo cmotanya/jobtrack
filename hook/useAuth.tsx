@@ -1,20 +1,15 @@
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { logoutAction } from "@/app/(auth)/logout/actions";
+import toast from "react-hot-toast";
 
 export function useAuth() {
-  const supabase = useMemo(() => createClient(), []);
-  const router = useRouter();
-
   const handleLogout = async () => {
-    const { error: authError } = await supabase.auth.signOut();
+    const result = await logoutAction();
 
-    if (authError) {
-      return { success: false, error: authError };
+    if (result.error) {
+      return { success: false, error: result.error };
     }
 
-    router.push("/login");
-    router.refresh();
+    toast.success("Logout successful!");
 
     return { success: true };
   };

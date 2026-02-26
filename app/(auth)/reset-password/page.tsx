@@ -16,14 +16,11 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { resetPasswordAction } from "./actions";
-import { useRouter } from "next/navigation";
 
 const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  const router = useRouter();
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({
@@ -41,7 +38,6 @@ const ResetPasswordPage = () => {
     if (sessionError) {
       toast.error("Session expired. Please request a new code.");
       reset();
-      router.push("/forgot-password");
       return;
     }
 
@@ -54,7 +50,7 @@ const ResetPasswordPage = () => {
     toast.success("Password reset successfully!");
     reset();
 
-    router.push("/login?reset=true");
+    // router.push("/login?reset=true");
   };
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
@@ -85,7 +81,7 @@ const ResetPasswordPage = () => {
     <section className="max-w-md justify-center">
       <div className="space-y-5">
         <div className="px-4 text-center tracking-tight">
-          <h1 className="text-3xl font-bold">Enter Reset Code</h1>
+          <h1 className="text-3xl font-bold">Reset Password</h1>
           <p className="text-xs">Enter new password for your account.</p>
         </div>
 
