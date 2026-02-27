@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { AuthResetPasswordProps } from "@/types/auth";
 import { getDefaultResetPasswordValues } from "@/helpers/defaultValues";
 import {
   ResetPasswordFormData,
@@ -14,17 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { resetPasswordAction } from "./actions";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/hook/useAuth";
 
 const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  const router = useRouter();
 
   const { control, handleSubmit, formState, reset } =
     useForm<ResetPasswordFormData>({

@@ -15,7 +15,7 @@ import { useAuth } from "@/hook/useAuth";
 
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  // const [isSuccess, setIsSuccess] = useState(false);
 
   const { control, handleSubmit, formState, reset } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -58,9 +58,7 @@ const LogInPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit((data) =>
-            handleLogin(data, { reset, setIsSuccess }),
-          )}
+          onSubmit={handleSubmit((data) => handleLogin(data, { reset }))}
           noValidate
           className="mx-8 flex flex-col gap-2.5"
         >
@@ -114,7 +112,7 @@ const LogInPage = () => {
                     maxLength={10}
                     aria-describedby="passwordError"
                     autoComplete="current-password"
-                    disabled={formState.isSubmitting || isSuccess}
+                    disabled={formState.isSubmitting}
                     className={cn(
                       inputClass(!!fieldState.error, fieldState.isTouched),
                       "pr-10",
@@ -125,7 +123,7 @@ const LogInPage = () => {
                     variant="ghost"
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    disabled={formState.isSubmitting || isSuccess}
+                    disabled={formState.isSubmitting}
                     className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 transition"
                   >
                     {showPassword ? <Eye size={14} /> : <EyeOff size={14} />}
@@ -149,17 +147,13 @@ const LogInPage = () => {
           <div className="ml-auto">
             <Button
               type="submit"
-              disabled={formState.isSubmitting || isSuccess}
+              disabled={formState.isSubmitting}
               className={cn(
                 "font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
                 !formState.isValid && "cursor-not-allowed opacity-50",
               )}
             >
-              {formState.isSubmitting
-                ? "Signing In..."
-                : isSuccess
-                  ? "Redirecting..."
-                  : "Sign In"}
+              {formState.isSubmitting ? "Signing In..." : "Sign In"}
             </Button>
           </div>
         </form>

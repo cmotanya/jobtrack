@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Footer } from "./footer";
 import Header from "./header/page";
-import { ArrowBigRight, Shield, Sparkle } from "lucide-react";
+import { ArrowBigRight, CheckCircle2, Shield, Sparkle } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -93,7 +93,7 @@ export default function Home() {
                 className="flex items-center gap-2 text-sm font-medium"
               >
                 <div className="bg-success/10 text-success flex h-8 w-8 items-center justify-center rounded-lg">
-                  {indicator.icon}
+                  <CheckCircle2 />
                 </div>
                 {indicator.title}
               </div>

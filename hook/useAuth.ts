@@ -41,13 +41,11 @@ export function useAuth() {
 
   const handleLogin = async (
     data: AuthSignInProps,
-    { reset, setIsSuccess }: AuthOptionSignIn,
+    { reset }: AuthOptionSignIn,
   ) => {
     const result = await loginAction(data);
 
     if (result?.success) {
-      setIsSuccess?.(true);
-
       toast.success("Login successful!");
       reset();
       router.push("/dashboard");

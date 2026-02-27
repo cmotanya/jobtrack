@@ -13,7 +13,7 @@ export type SideBarProps = {
   setSidebarOpen: (open: boolean) => void;
 };
 
-export type JobStatusTypes =
+export type JobProgressTypes =
   | "scheduled"
   | "in-progress"
   | "on-hold"
@@ -26,11 +26,11 @@ export type JobFormValues = {
   title: string;
   client: string;
   location: string;
-  status: JobStatusTypes;
-  paymentStatus: PaymentStatusTypes;
+  job_progress: JobProgressTypes;
+  payment_status: PaymentStatusTypes;
   amount: number;
-  startDate: string;
-  dueDate: string;
+  start_date: string;
+  due_date: string;
 };
 
 export type OnJobSubmitProps = {
@@ -51,11 +51,17 @@ export type JobProps = {
   id: string;
   title: string;
   client: string;
-  status: JobStatusTypes;
-  paymentStatus: PaymentStatusTypes;
+  job_progress: JobProgressTypes;
+  payment_status: PaymentStatusTypes;
   amount: number;
-  startDate: string;
-  dueDate: string;
+  start_date: string;
+  due_date: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type FetchJobsProps = {
+  jobs: JobProps[];
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setJobs: React.Dispatch<React.SetStateAction<JobProps[]>>;
 };

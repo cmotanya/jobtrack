@@ -1,4 +1,5 @@
 import { UseFormReset } from "react-hook-form";
+import { JobProps } from "./dashboard";
 
 export type AuthSignInProps = {
   email: string;
@@ -28,7 +29,6 @@ export type AuthVerifyOTPProps = {
 
 export type AuthOptionSignIn = {
   reset: UseFormReset<AuthSignInProps>;
-  setIsSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type AuthOptionSignUp = {
@@ -38,4 +38,9 @@ export type AuthOptionSignUp = {
 export type AuthOptionPasswordReset = {
   reset: UseFormReset<AuthResetPasswordProps>;
   setIsSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type TodaysJobsProps = {
+  isLoading: boolean;
+  todayJobs: JobProps[];
 };

@@ -2,10 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { JobProps } from "@/types/dashboard";
 import { jobStats } from "@/helpers/jobStats";
 import { Download, Filter, Unplug } from "lucide-react";
-import { useState } from "react";
 import { formatCurrency } from "../../helpers/formatCurrency";
 import {
   Table,
@@ -18,10 +16,13 @@ import {
 import CreateJobDialog from "@/components/dashboard/createJobDialog";
 import { useUserDisplay } from "@/helpers/useUserDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useJobs } from "@/hook/useJobs";
+import TodayJobs from "@/components/dashboard/todayJobs";
 
 export default function DashboardPage() {
-  const [jobs] = useState<JobProps[]>([]);
   const { first_name } = useUserDisplay();
+
+  const { jobs, todayJobs, isLoading } = useJobs();
 
   const stats = jobStats(jobs);
 
@@ -64,14 +65,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Today's Jobs */}
-      <div>
-        <div className="px-4">
-          <h2 className="text-3xl font-bold">Today&apos;s Focus</h2>
-          <p className="text-muted-foreground text-sm">
-            Here is a list of today&apos;s jobs.
-          </p>
-        </div>
-      </div>
+      <TodayJobs isLoading={isLoading} todayJobs={todayJobs} />
 
       <div className="flex flex-col gap-4 px-4">
         <div>
@@ -186,11 +180,11 @@ export default function DashboardPage() {
                     {jobs.slice(0, 5).map((job) => (
                       <TableRow key={job.id}>
                         <TableCell>{job.id}</TableCell>
-                        <TableCell>{job.title}</TableCell>
+                        <TableCell className="uppercase">{job.title}</TableCell>
                         <TableCell>{job.client}</TableCell>
-                        <TableCell>{job.startDate}</TableCell>
+                        <TableCell>{job.start_date}</TableCell>
                         <TableCell>{formatCurrency(job.amount)}</TableCell>
-                        <TableCell>{job.status}</TableCell>
+                        <TableCell>{job.payment_status}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
