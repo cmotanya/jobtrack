@@ -7,12 +7,9 @@ import {
 } from "@/components/ui/select";
 import { jobStatus } from "@/data/Dashboard/jobStatus";
 import { cn } from "@/lib/utils";
-import { JobStatusTypes } from "@/types/dashboard";
+import { JobProgressProps } from "@/types/dashboard";
 
-type JobProgressProps = {
-  value: JobStatusTypes;
-  onChange: (value: JobStatusTypes) => void;
-};
+
 
 const JobProgress = ({ value, onChange }: JobProgressProps) => {
   return (

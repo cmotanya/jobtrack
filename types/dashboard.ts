@@ -1,5 +1,6 @@
 import { JobFormData } from "@/helpers/zodSchema";
 import { UseFormReset } from "react-hook-form";
+import JobProgress from '../components/dashboard/jobProgress';
 
 export type HandleStartDateProps = {
   value: string;
@@ -64,4 +65,9 @@ export type FetchJobsProps = {
   jobs: JobProps[];
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setJobs: React.Dispatch<React.SetStateAction<JobProps[]>>;
+};
+
+export type JobProgressProps = {
+  value: JobProgressTypes;
+  onChange: (value: JobProgressTypes) => void;
 };
