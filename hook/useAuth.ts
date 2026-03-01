@@ -10,6 +10,7 @@ import {
   AuthOptionPasswordReset,
   AuthOptionSignIn,
   AuthOptionSignUp,
+  AuthOptionVerifyOtp,
   AuthResetPasswordProps,
   AuthSignInProps,
   AuthSignUpProps,
@@ -39,17 +40,16 @@ export function useAuth() {
     }
   };
 
+  // login user
   const handleLogin = async (
     data: AuthSignInProps,
     { reset }: AuthOptionSignIn,
   ) => {
-    router.push("/dashboard");
-
     const result = await loginAction(data);
 
     if (result?.success) {
       reset();
-      router.push("/dashboard");
+      router.replace("/dashboard");
     } else {
       toast.error(result?.error || "Login failed");
       reset({ ...data, password: "" });
@@ -60,12 +60,11 @@ export function useAuth() {
   const handleLogout = async () => {
     const result = await logoutAction();
 
-    router.push("/login");
-
     if (result.error) {
       return { success: false, error: result.error };
     }
 
+    router.replace("/login");
     return { success: true };
   };
 
@@ -85,7 +84,10 @@ export function useAuth() {
   };
 
   // verify otp
-  const handleVerifyOTP = async (data: VerifyOTPFormData) => {
+  const handleVerifyOTP = async (
+    data: VerifyOTPFormData,
+    { reset }: AuthOptionVerifyOtp,
+  ) => {
     const email = sessionStorage.getItem("reset-email");
 
     if (!email) {
@@ -97,10 +99,12 @@ export function useAuth() {
     const result = await verifyOTPAction({ email: email!, otp: data.otp });
 
     if (!result.success) {
+      reset({ otp: "" });
       toast.error(result.error || "Failed to verify OTP.");
       return;
     }
 
+    reset();
     sessionStorage.removeItem("reset-email");
     router.push("/reset-password");
   };
@@ -117,7 +121,7 @@ export function useAuth() {
 
     if (sessionError) {
       toast.error("Session expired. Please request a new code.");
-      reset?.();
+      reset();
       router.push("/forgot-password");
       return;
     }

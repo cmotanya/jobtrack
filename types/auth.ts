@@ -1,5 +1,6 @@
 import { UseFormReset } from "react-hook-form";
 import { JobProps } from "./dashboard";
+import { VerifyOTPFormData } from "@/helpers/zodSchema";
 
 export type AuthSignInProps = {
   email: string;
@@ -33,6 +34,10 @@ export type AuthOptionSignIn = {
 
 export type AuthOptionSignUp = {
   reset: UseFormReset<AuthSignUpProps>;
+};
+
+export type AuthOptionVerifyOtp = {
+  reset: UseFormReset<VerifyOTPFormData>;
 };
 
 export type AuthOptionPasswordReset = {

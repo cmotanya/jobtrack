@@ -9,8 +9,6 @@ import { VerifyOTPFormData, verifyOTPSchema } from "@/helpers/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import { verifyOTPAction } from "./actions";
-import toast from "react-hot-toast";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
 import { useAuth } from "@/hook/useAuth";
@@ -18,11 +16,12 @@ import { useAuth } from "@/hook/useAuth";
 const VerifyOTPPage = () => {
   const router = useRouter();
 
-  const { control, handleSubmit, formState } = useForm<VerifyOTPFormData>({
-    resolver: zodResolver(verifyOTPSchema),
-    defaultValues: getDefaultVerifyOTPValues(),
-    mode: "onChange",
-  });
+  const { control, handleSubmit, formState, reset } =
+    useForm<VerifyOTPFormData>({
+      resolver: zodResolver(verifyOTPSchema),
+      defaultValues: getDefaultVerifyOTPValues(),
+      mode: "onChange",
+    });
 
   const { handleVerifyOTP } = useAuth();
 
@@ -60,7 +59,7 @@ const VerifyOTPPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit((data) => handleVerifyOTP(data))}
+          onSubmit={handleSubmit((data) => handleVerifyOTP(data, { reset }))}
           noValidate
           className="mb-10 space-y-4 px-5"
         >
@@ -78,7 +77,9 @@ const VerifyOTPPage = () => {
                   maxLength={8}
                   placeholder="12345678"
                   autoComplete="one-time-code"
-                  disabled={formState.isSubmitting}
+                  disabled={
+                    formState.isSubmitting || formState.isSubmitSuccessful
+                  }
                   className={inputClass(
                     fieldState.invalid,
                     fieldState.isTouched,
@@ -93,7 +94,7 @@ const VerifyOTPPage = () => {
           <div className="flex justify-end">
             <Button
               type="submit"
-              disabled={formState.isSubmitting}
+              disabled={formState.isSubmitting || !formState.isValid}
               className={cn(
                 "transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
                 !formState.isValid && "cursor-not-allowed opacity-50",

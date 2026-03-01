@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { paymentStatus } from "@/data/Dashboard/jobStatus";
+import { paymentStatusColor } from "@/data/Dashboard/status-configs";
 import { cn } from "@/lib/utils";
 import { PaymentStatusTypes } from "@/types/dashboard";
 
@@ -24,17 +24,17 @@ const PaymentStatus = ({ value, onChange }: PaymentStatusProps) => {
               <span
                 className={cn(
                   "size-2.5 rounded-full",
-                  paymentStatus.find((s) => s.value === value)?.color,
+                  paymentStatusColor.find((s) => s.value === value)?.color,
                 )}
               />
-              {paymentStatus.find((s) => s.value === value)?.label}
+              {paymentStatusColor.find((s) => s.value === value)?.label}
             </div>
           )}
         </SelectValue>
       </SelectTrigger>
 
       <SelectContent>
-        {paymentStatus.map((status) => (
+        {paymentStatusColor.map((status) => (
           <SelectItem key={status.value} value={status.value}>
             <div className="flex items-center gap-2 tracking-tight">
               <span className={cn("size-2.5 rounded-full", status.color)} />

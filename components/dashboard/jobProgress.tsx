@@ -5,11 +5,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { jobStatus } from "@/data/Dashboard/jobStatus";
+import { jobStatusColor } from "@/data/Dashboard/status-configs";
 import { cn } from "@/lib/utils";
 import { JobProgressProps } from "@/types/dashboard";
-
-
 
 const JobProgress = ({ value, onChange }: JobProgressProps) => {
   return (
@@ -21,17 +19,17 @@ const JobProgress = ({ value, onChange }: JobProgressProps) => {
               <span
                 className={cn(
                   "size-2.5 rounded-full",
-                  jobStatus.find((s) => s.value === value)?.color,
+                  jobStatusColor.find((s) => s.value === value)?.color,
                 )}
               />
-              {jobStatus.find((s) => s.value === value)?.label}
+              {jobStatusColor.find((s) => s.value === value)?.label}
             </div>
           )}
         </SelectValue>
       </SelectTrigger>
 
       <SelectContent>
-        {jobStatus.map((status) => (
+        {jobStatusColor.map((status) => (
           <SelectItem key={status.value} value={status.value}>
             <div className="flex items-center gap-2 tracking-tight">
               <span className={cn("size-2.5 rounded-full", status.color)} />

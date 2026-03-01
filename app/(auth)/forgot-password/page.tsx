@@ -81,7 +81,9 @@ const ForgotPasswordPage = () => {
                     type="email"
                     placeholder="name@email.com"
                     autoComplete={field.name}
-                    disabled={formState.isSubmitting}
+                    disabled={
+                      formState.isSubmitting || formState.isSubmitSuccessful
+                    }
                     className={inputClass(
                       !!fieldState.error,
                       fieldState.isTouched,
@@ -97,7 +99,7 @@ const ForgotPasswordPage = () => {
           <div className="ml-auto">
             <Button
               type="submit"
-              disabled={formState.isSubmitting}
+              disabled={formState.isSubmitting || !formState.isValid}
               className={cn(
                 "transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
                 !formState.isValid && "cursor-not-allowed opacity-50",

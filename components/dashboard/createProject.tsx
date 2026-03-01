@@ -11,16 +11,17 @@ import {
 import { useState } from "react";
 import JobForm from "./jobForm";
 import { Button } from "@/components/ui/button";
+import { ArrowBigRight } from "lucide-react";
 
-const CreateJobDialog = () => {
+const CreateNewProject = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <div className="w-full">
-          <Button className="py-6.5 uppercase transition-all hover:scale-105 active:scale-95">
-            Create New Job{" "}
+        <div className="">
+          <Button className="py-6 transition-all hover:scale-105 active:scale-95">
+            New Project <ArrowBigRight />
           </Button>
         </div>
       </DialogTrigger>
@@ -42,4 +43,4 @@ const CreateJobDialog = () => {
   );
 };
 
-export default CreateJobDialog;
+export default CreateNewProject;

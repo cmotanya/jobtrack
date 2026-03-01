@@ -15,7 +15,6 @@ import { useAuth } from "@/hook/useAuth";
 
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  // const [isSuccess, setIsSuccess] = useState(false);
 
   const { control, handleSubmit, formState, reset } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -58,7 +57,9 @@ const LogInPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit((data) => handleLogin(data, { reset }))}
+          onSubmit={handleSubmit((data) =>
+            handleLogin(data, { reset }),
+          )}
           noValidate
           className="mx-8 flex flex-col gap-2.5"
         >
@@ -79,7 +80,7 @@ const LogInPage = () => {
                     type="email"
                     placeholder="name@email.com"
                     autoComplete={field.name}
-                    disabled={formState.isSubmitting}
+                    disabled={formState.isSubmitting || formState.isSubmitSuccessful}
                     className={inputClass(
                       !!fieldState.error,
                       fieldState.isTouched,
@@ -112,7 +113,7 @@ const LogInPage = () => {
                     maxLength={10}
                     aria-describedby="passwordError"
                     autoComplete="current-password"
-                    disabled={formState.isSubmitting}
+                    disabled={formState.isSubmitting || formState.isSubmitSuccessful}
                     className={cn(
                       inputClass(!!fieldState.error, fieldState.isTouched),
                       "pr-10",
@@ -147,7 +148,7 @@ const LogInPage = () => {
           <div className="ml-auto">
             <Button
               type="submit"
-              disabled={formState.isSubmitting}
+              disabled={formState.isSubmitting || !formState.isValid}
               className={cn(
                 "font-semibold transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
                 !formState.isValid && "cursor-not-allowed opacity-50",

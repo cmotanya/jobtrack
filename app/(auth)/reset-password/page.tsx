@@ -88,7 +88,7 @@ const ResetPasswordPage = () => {
                     placeholder="******"
                     autoComplete="new-password"
                     aria-describedby="passwordError"
-                    disabled={formState.isSubmitting}
+                    disabled={formState.isSubmitting || isSuccess}
                     className={inputClass(
                       fieldState.invalid,
                       fieldState.isTouched,
@@ -162,7 +162,7 @@ const ResetPasswordPage = () => {
           <div className="flex justify-end">
             <Button
               type="submit"
-              disabled={formState.isSubmitting}
+              disabled={formState.isSubmitting || isSuccess}
               className={cn(
                 "transition-all duration-200 ease-in-out hover:scale-105 active:scale-[0.98]",
                 !formState.isValid && "cursor-not-allowed opacity-50",

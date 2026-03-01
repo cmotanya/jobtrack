@@ -12,8 +12,8 @@ import {
 import { featureCards } from "@/data/feature-card";
 import { Badge } from "@/components/ui/badge";
 import { trustIndicators } from "@/data/trust-indicators";
-import { workFlowSteps } from "@/data/workFlow";
-import { businessGoals } from "@/data/businessGoals";
+import { workFlowSteps } from "@/data/workflow";
+import { businessGoals } from "@/data/business-goals";
 import { Fade } from "react-awesome-reveal";
 
 export default function Home() {

@@ -1,6 +1,5 @@
 import { JobFormData } from "@/helpers/zodSchema";
 import { UseFormReset } from "react-hook-form";
-import JobProgress from '../components/dashboard/jobProgress';
 
 export type HandleStartDateProps = {
   value: string;
