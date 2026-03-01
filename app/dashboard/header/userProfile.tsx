@@ -12,6 +12,8 @@ const UserProfile = () => {
   const { handleLogout } = useAuth();
   const { display_name, email } = useUserDisplay();
 
+  
+
   return (
     <div className="bg-muted relative z-100 mt-auto flex w-full flex-col border">
       <DropdownMenu>

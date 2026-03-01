@@ -43,12 +43,13 @@ export function useAuth() {
     data: AuthSignInProps,
     { reset }: AuthOptionSignIn,
   ) => {
+    router.replace("/dashboard");
+
     const result = await loginAction(data);
 
     if (result?.success) {
-      toast.success("Login successful!");
       reset();
-      router.push("/dashboard");
+      router.replace("/dashboard");
     } else {
       toast.error(result?.error || "Login failed");
       reset({ ...data, password: "" });
@@ -59,13 +60,12 @@ export function useAuth() {
   const handleLogout = async () => {
     const result = await logoutAction();
 
+    router.replace("/login");
+
     if (result.error) {
       return { success: false, error: result.error };
     }
 
-    toast.success("Logout successful!");
-
-    router.push("/login");
     return { success: true };
   };
 
