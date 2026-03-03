@@ -65,6 +65,13 @@ const MonthlyOverview = () => {
   const calc = (a: number, b: number) =>
     b === 0 ? 0 : Math.round((a / b) * 100);
 
+  const currentMonth = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+  })
+    .format(new Date())
+    .toUpperCase();
+
   const cards = [
     {
       title: "Total Revenue",
@@ -113,7 +120,7 @@ const MonthlyOverview = () => {
             variant="outline"
             className="border-slate-200 bg-slate-50 text-slate-500"
           >
-            Last 30 Days
+            {currentMonth}
           </Badge>
         </div>
         <p className="text-sm">Performance metrics for the current month</p>

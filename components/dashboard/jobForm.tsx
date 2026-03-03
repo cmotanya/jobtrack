@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { handleStartDate, nextDueDate, today } from "./datePicker";
-import JobProgress from "./jobProgress";
 import PaymentStatus from "./paymentStatus";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -16,6 +15,7 @@ import { OnJobSubmit } from "./onJobSubmit";
 import { getDefaultEmptyJobValues } from "@/helpers/defaultValues";
 import { cn } from "@/lib/utils";
 import { Briefcase, User, Banknote, MapPin, CalendarDays } from "lucide-react";
+import JobProgress from "./jobProgress";
 
 const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
   const [startDate, setStartDate] = useState(today);

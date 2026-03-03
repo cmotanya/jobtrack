@@ -9,11 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import JobForm from "./jobForm";
 import { Button } from "@/components/ui/button";
 import { ArrowBigRight } from "lucide-react";
+import JobForm from "./jobForm";
 
-const CreateNewProject = () => {
+const NewProject = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
@@ -43,4 +43,4 @@ const CreateNewProject = () => {
   );
 };
 
-export default CreateNewProject;
+export default NewProject;
