@@ -57,9 +57,7 @@ const LogInPage = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit((data) =>
-            handleLogin(data, { reset }),
-          )}
+          onSubmit={handleSubmit((data) => handleLogin(data, { reset }))}
           noValidate
           className="mx-8 flex flex-col gap-2.5"
         >
@@ -80,7 +78,7 @@ const LogInPage = () => {
                     type="email"
                     placeholder="name@email.com"
                     autoComplete={field.name}
-                    disabled={formState.isSubmitting || formState.isSubmitSuccessful}
+                    disabled={formState.isSubmitting || formState.isValid}
                     className={inputClass(
                       !!fieldState.error,
                       fieldState.isTouched,
@@ -113,7 +111,7 @@ const LogInPage = () => {
                     maxLength={10}
                     aria-describedby="passwordError"
                     autoComplete="current-password"
-                    disabled={formState.isSubmitting || formState.isSubmitSuccessful}
+                    disabled={formState.isSubmitting || formState.isValid}
                     className={cn(
                       inputClass(!!fieldState.error, fieldState.isTouched),
                       "pr-10",

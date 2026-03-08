@@ -36,7 +36,7 @@ const NewProject = () => {
           </DialogDescription>
         </DialogHeader>
 
-        {/* Form section here */}
+        {/* job form */}
         <JobForm setIsDialogOpen={setIsDialogOpen} />
       </DialogContent>
     </Dialog>

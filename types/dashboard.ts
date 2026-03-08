@@ -35,20 +35,24 @@ export type JobFormValues = {
 
 export type OnJobSubmitProps = {
   data: JobFormData;
+  id: string;
   reset: UseFormReset<JobFormData>;
   setIsDialogOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type HandleJobSubmitProps = {
   data: JobFormData;
+  id?: string;
 };
 
 export type JobDialogProps = {
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  initialValues?: JobProps;
 };
 
 export type JobProps = {
   id: string;
+  uuid: string;
   title: string;
   client: string;
   job_progress: JobProgressTypes;
@@ -56,6 +60,7 @@ export type JobProps = {
   amount: number;
   start_date: string;
   due_date: string;
+  location: string;
   createdAt: string;
   updatedAt: string;
 };

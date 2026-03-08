@@ -32,13 +32,13 @@ const RecentProjects = () => {
         <div className="flex gap-2">
           <Button
             variant="outline"
-            className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium"
+            className="bg-muted active:bg-muted/80 inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-all duration-75 active:scale-[1.03] active:shadow-sm"
           >
             <Filter size={10} /> Filter
           </Button>
           <Button
             variant="outline"
-            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
+            className="transform-all hover:bg-background inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs duration-75 active:scale-[1.03] active:shadow-sm"
           >
             <Download size={13} /> Export
           </Button>
@@ -84,7 +84,7 @@ const RecentProjects = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {jobs.slice(0, 8).map((job) => (
+                {jobs.slice(0, 5).map((job) => (
                   <TableRow
                     key={job.id}
                     className="group hover:bg-muted cursor-pointer transition-colors"
@@ -120,7 +120,7 @@ const RecentProjects = () => {
             <p className="text-muted-foreground/80 text-xs">
               Showing{" "}
               <span className="text-foreground font-semibold">
-                {Math.min(8, jobs.length)}
+                {Math.min(5, jobs.length)}
               </span>{" "}
               of{" "}
               <span className="text-foreground font-semibold">

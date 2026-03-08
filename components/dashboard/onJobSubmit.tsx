@@ -7,17 +7,20 @@ import { handleJobCancel } from "./handleJobCancel";
 
 export const OnJobSubmit = async ({
   data,
+  id,
   reset,
   setIsDialogOpen,
 }: OnJobSubmitProps): Promise<void> => {
   try {
-    await handleNewJobSubmit({ data });
+    await handleNewJobSubmit({ data, id });
 
     handleJobCancel(reset);
 
     setIsDialogOpen?.(false);
 
-    toast.success("Job created successfully!");
+    toast.success(
+      id ? "Job updated successfully!" : "Job created successfully!",
+    );
   } catch (error) {
     console.error(error);
 

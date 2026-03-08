@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 
 const handleJobSubmit = async ({
   data,
+  id,
 }: HandleJobSubmitProps): Promise<{ jobId: string }> => {
   const supabase = await createClient();
 
@@ -28,59 +29,56 @@ const handleJobSubmit = async ({
   const company_id = profile.company_id;
 
   // finding or creating client for this job
-  const { data: existingClient } = await supabase
+  const { data: clientData, error: clientError } = await supabase
     .from("clients")
+    .upsert(
+      {
+        full_name: data.client.trim(),
+        company_id: company_id,
+        location: data.location.trim() || null,
+      },
+      {
+        onConflict: "full_name, company_id",
+        ignoreDuplicates: false,
+      },
+    )
     .select("id")
-    .eq("company_id", company_id)
-    .ilike("full_name", data.client.trim())
     .maybeSingle();
 
-  let client_id: string;
-
-  if (existingClient) {
-    client_id = existingClient.id;
-  } else {
-    const { data: newClient, error: clientError } = await supabase
-      .from("clients")
-      .insert({
-        full_name: data.client.trim(),
-        company_id,
-        location: data.location.trim() || null,
-      })
-      .select("id")
-      .single();
-
-    if (clientError || !newClient) {
-      throw new Error(clientError?.message || "Could not create client.");
-    }
-
-    client_id = newClient.id;
+  if (clientError || !clientData) {
+    throw new Error(clientError?.message || "Could not sync client data.");
   }
 
+  const client_id = clientData.id;
+
+  const jobData = {
+    title: data.title.trim(),
+    client_id,
+    company_id,
+    assigned_to: user.id,
+    amount: data.amount,
+    job_progress: data.job_progress,
+    payment_status: data.payment_status,
+    start_date: data.start_date,
+    due_date: data.due_date,
+  };
+
   // insert job; job_number is assigned by DB trigger
-  const { data: newJob, error: jobError } = await supabase
+  const { data: jobResult, error: jobError } = await supabase
     .from("jobs")
-    .insert({
-      title: data.title.trim(),
-      client_id,
-      company_id,
-      assigned_to: user.id,
-      amount: data.amount,
-      job_progress: data.job_progress,
-      payment_status: data.payment_status,
-      start_date: data.start_date,
-      due_date: data.due_date,
+    .upsert(id ? { ...jobData, id } : jobData, {
+      onConflict: "id",
     })
     .select("id")
     .single();
 
-  if (jobError || !newJob) {
-    throw new Error(jobError?.message ?? "Could not create job.");
+  if (jobError || !jobResult) {
+    throw new Error(jobError?.message ?? "Could not save job.");
   }
 
   revalidatePath("/dashboard");
 
-  return { jobId: newJob.id };
+  return { jobId: jobResult.id };
 };
 
 export default handleJobSubmit;

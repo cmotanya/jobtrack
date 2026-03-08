@@ -44,7 +44,7 @@ export function useJobs() {
           created_at,
           updated_at,
           job_number,
-          clients(full_name)
+          clients(full_name, location)
         `,
         )
         .eq("company_id", profile.company_id)
@@ -54,8 +54,10 @@ export function useJobs() {
 
       const mapped: JobProps[] = data.map((job) => ({
         id: job.job_number,
+        uuid: job.id,
         title: job.title,
         client: job.clients.full_name,
+        location: job.clients.location as string,
         job_progress: job.job_progress as JobProgressTypes,
         payment_status: job.payment_status as PaymentStatusTypes,
         amount: job.amount,
@@ -75,7 +77,7 @@ export function useJobs() {
 
   const todayJobs = jobs.filter((job) => {
     const today = new Date().toISOString().split("T")[0];
-    return job.start_date === today || job.payment_status === "unpaid";
+    return job.start_date === today;
   });
 
   return { jobs, todayJobs, isLoading };

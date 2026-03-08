@@ -14,27 +14,40 @@ import { formatCurrency, parseCurrency } from "@/helpers/formatCurrency";
 import { OnJobSubmit } from "./onJobSubmit";
 import { getDefaultEmptyJobValues } from "@/helpers/defaultValues";
 import { cn } from "@/lib/utils";
-import { Briefcase, User, Banknote, MapPin, CalendarDays } from "lucide-react";
+import { User, Banknote, MapPin, CalendarDays } from "lucide-react";
 import JobProgress from "./jobProgress";
+import JobTitleCombobox from "./jobTitleCombobox";
+import LocationCombobox from "./locationCombobox";
 
-const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
-  const [startDate, setStartDate] = useState(today);
-  const [dueDate, setDueDate] = useState(nextDueDate);
+const JobForm = ({ setIsDialogOpen, initialValues }: JobDialogProps) => {
+  const [startDate, setStartDate] = useState(
+    initialValues?.start_date || today,
+  );
+  const [dueDate, setDueDate] = useState(
+    initialValues?.due_date || nextDueDate,
+  );
   const [manualDueDate, setManualDueDate] = useState(false);
 
   const { control, handleSubmit, reset, formState, setValue } =
     useForm<JobFormData>({
       resolver: zodResolver(jobSchema),
-      defaultValues: {
-        ...getDefaultEmptyJobValues(),
-        job_progress: "in-progress",
-        payment_status: "unpaid",
-      },
+      defaultValues: initialValues
+        ? { ...initialValues }
+        : {
+            ...getDefaultEmptyJobValues(),
+            job_progress: "in-progress",
+            payment_status: "unpaid",
+          },
       mode: "onSubmit",
     });
 
   const onSubmit = async (data: JobFormData) => {
-    await OnJobSubmit({ data, reset, setIsDialogOpen });
+    await OnJobSubmit({
+      data,
+      id: initialValues?.uuid || "",
+      reset,
+      setIsDialogOpen,
+    });
   };
 
   const inputClass = (hasError: boolean, isTouched: boolean) =>
@@ -73,19 +86,13 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
         render={({ field, fieldState }) => (
           <div className="space-y-1.5">
             {fieldLabel("Job Title", field.name)}
-            <div className="relative">
-              <Briefcase
-                size={14}
-                className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-              />
-              <Input
-                {...field}
-                id={field.name}
-                placeholder="e.g. CCTV Installation"
-                autoComplete={field.name}
-                className={inputClass(!!fieldState.error, fieldState.isTouched)}
-              />
-            </div>
+            <JobTitleCombobox
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              hasError={!!fieldState.error}
+              isTouched={fieldState.isTouched}
+            />
             {fieldError(fieldState.error?.message)}
           </div>
         )}
@@ -149,28 +156,19 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
             </div>
           )}
         />
-
         <Controller
           control={control}
           name="location"
           render={({ field, fieldState }) => (
             <div className="space-y-1.5">
               {fieldLabel("Location", field.name)}
-              <div className="relative">
-                <MapPin
-                  size={14}
-                  className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                />
-                <Input
-                  {...field}
-                  id={field.name}
-                  placeholder="e.g. Nyali"
-                  className={inputClass(
-                    !!fieldState.error,
-                    fieldState.isTouched,
-                  )}
-                />
-              </div>
+              <LocationCombobox
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                hasError={!!fieldState.error}
+                isTouched={fieldState.isTouched}
+              />
               {fieldError(fieldState.error?.message)}
             </div>
           )}
@@ -260,7 +258,6 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
-                  setValue("job_progress", value);
                 }}
               />
             </div>
@@ -277,7 +274,6 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
-                  setValue("payment_status", value);
                 }}
               />
             </div>
@@ -285,7 +281,7 @@ const JobForm = ({ setIsDialogOpen }: JobDialogProps) => {
         />
       </div>
 
-      {/* Actions */}
+      {/* actions */}
       <div className="flex items-center justify-end gap-2.5">
         <Button
           type="button"
