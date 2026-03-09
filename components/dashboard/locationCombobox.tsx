@@ -4,30 +4,8 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-
-const LOCATIONS_DATA = [
-  { location: "Nyali", keywords: ["nyali", "links", "miami"] },
-  { location: "Mombasa CBD", keywords: ["cbd", "city", "centre", "town"] },
-  { location: "Bamburi", keywords: ["bamburi", "shanzu", "beach"] },
-  { location: "Kisauni", keywords: ["kisauni", "mishomoroni"] },
-  { location: "Likoni", keywords: ["likoni", "ferry"] },
-  { location: "Mtwapa", keywords: ["mtwapa", "creekside"] },
-  { location: "Diani", keywords: ["diani", "ukunda", "south coast"] },
-  { location: "Malindi", keywords: ["malindi", "watamu"] },
-  { location: "Kilifi", keywords: ["kilifi", "bofa"] },
-  {
-    location: "Mombasa Island",
-    keywords: ["island", "old town", "ganjoni", "tudor"],
-  },
-];
-
-type Props = {
-  value: string;
-  onChange: (val: string) => void;
-  onBlur: () => void;
-  hasError: boolean;
-  isTouched: boolean;
-};
+import { LocationComboboxProps } from "@/types/dashboard";
+import { LOCATIONS_DATA } from "@/data/location";
 
 export default function LocationCombobox({
   value,
@@ -35,7 +13,7 @@ export default function LocationCombobox({
   onBlur,
   hasError,
   isTouched,
-}: Props) {
+}: LocationComboboxProps) {
   const [open, setOpen] = useState(false);
 
   const filtered = LOCATIONS_DATA.filter((item) => {
@@ -67,13 +45,13 @@ export default function LocationCombobox({
         onFocus={() => setOpen(true)}
         placeholder="Search location (e.g. Nyali)"
         className={cn(
-          "border-muted-foreground/40 focus-visible:border-primary/40 h-10 bg-white pl-9 text-sm transition placeholder:text-zinc-400 focus-visible:ring-0",
+          "border-muted-foreground/40 focus-visible:border-primary/40 bg-background placeholder:text-muted-foreground/60 h-10 pl-9 text-sm transition focus-visible:ring-0",
           hasError ? "border-destructive/40" : isTouched && "border-success",
         )}
       />
 
       {showDropdown && (
-        <ul className="absolute z-50 mt-1 w-full overflow-hidden rounded-lg border border-zinc-100 bg-white shadow-md">
+        <ul className="border-muted-foreground/40 bg-background/30 absolute z-50 mt-1 w-full overflow-hidden rounded-lg border shadow-md backdrop-blur-sm">
           {filtered.map((item) => (
             <li
               key={item.location}
@@ -81,7 +59,7 @@ export default function LocationCombobox({
                 onChange(item.location);
                 setOpen(false);
               }}
-              className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+              className="text-foreground hover:bg-foreground/50 flex cursor-pointer items-center gap-2 px-3 py-2 text-sm"
             >
               <MapPin size={12} className="shrink-0 text-zinc-400" />
               <span>{item.location}</span>
@@ -98,7 +76,7 @@ export default function LocationCombobox({
                   onChange(value.trim());
                   setOpen(false);
                 }}
-                className="flex cursor-pointer items-center gap-2 border-t border-zinc-100 px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-50"
+                className="border-muted-foreground/20 bg-muted-foreground/15 cursor-pointer rounded-lg border px-3 py-2 text-sm text-sky-700"
               >
                 <span className="font-medium">
                   Use &quot;{value.trim()}&quot;

@@ -15,10 +15,7 @@ import {
   Edit,
   MapPin,
 } from "lucide-react";
-import {
-  jobStatusColor,
-  paymentStatusColor,
-} from "@/data/Dashboard/status-configs";
+import { jobStatusColor, paymentStatusColor } from "@/data/status-configs";
 import { Button } from "../ui/button";
 import {
   Dialog,

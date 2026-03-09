@@ -1,6 +1,6 @@
 "use client";
 
-import { dashboardNav } from "@/data/Dashboard/dashboard-nav";
+import { dashboardNav } from "@/data/dashboard-nav";
 import {
   ArrowBigRight,
   ArrowRight,

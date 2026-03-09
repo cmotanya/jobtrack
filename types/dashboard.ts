@@ -1,5 +1,6 @@
 import { JobFormData } from "@/helpers/zodSchema";
 import { UseFormReset } from "react-hook-form";
+import JobTitleCombobox from "../components/dashboard/jobTitleCombobox";
 
 export type HandleStartDateProps = {
   value: string;
@@ -74,4 +75,20 @@ export type FetchJobsProps = {
 export type JobProgressProps = {
   value: JobProgressTypes;
   onChange: (value: JobProgressTypes) => void;
+};
+
+export type JobTitleComboboxProps = {
+  value: string;
+  onChange: (val: string) => void;
+  onBlur: () => void;
+  hasError: boolean;
+  isTouched: boolean;
+};
+
+export type LocationComboboxProps = {
+  value: string;
+  onChange: (val: string) => void;
+  onBlur: () => void;
+  hasError: boolean;
+  isTouched: boolean;
 };

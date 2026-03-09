@@ -4,60 +4,8 @@ import { useState } from "react";
 import { Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-
-const JOB_TITLES_DATA = [
-  {
-    title: "Smart CCTV Surveillance Install",
-    keywords: ["hikvision", "ring", "dahua", "nvr", "ip camera", "security"],
-  },
-  {
-    title: "High-Speed Starlink Integration",
-    keywords: ["satellite", "spacex", "dish", "internet", "kit"],
-  },
-  {
-    title: "Managed Wi-Fi Mesh Deployment",
-    keywords: [
-      "deco",
-      "tp-link",
-      "ubiquiti",
-      "unifi",
-      "access point",
-      "ruijie",
-    ],
-  },
-  {
-    title: "Biometric Access Control Setup",
-    keywords: ["fingerprint", "face id", "hikvision", "zkteco", "entry"],
-  },
-  {
-    title: "Structured Network Cabling",
-    keywords: ["cat6", "lan", "trunking", "ethernet", "patch panel"],
-  },
-  {
-    title: "Advanced Hardware Diagnostics",
-    keywords: ["hp", "dell", "laptop", "repair", "screen", "battery", "pc"],
-  },
-  {
-    title: "Full-Stack Web Development",
-    keywords: ["nextjs", "react", "supabase", "database", "coding"],
-  },
-  {
-    title: "Commercial Sound System Install",
-    keywords: ["pa system", "amplifier", "mixer", "100v line", "audio"],
-  },
-  {
-    title: "General Technical Consultation",
-    keywords: ["audit", "survey", "troubleshooting"],
-  },
-];
-
-type Props = {
-  value: string;
-  onChange: (val: string) => void;
-  onBlur: () => void;
-  hasError: boolean;
-  isTouched: boolean;
-};
+import { JobTitleComboboxProps } from "@/types/dashboard";
+import { JOB_TITLES_DATA } from "@/data/job-title";
 
 export default function JobTitleCombobox({
   value,
@@ -65,11 +13,12 @@ export default function JobTitleCombobox({
   onBlur,
   hasError,
   isTouched,
-}: Props) {
+}: JobTitleComboboxProps) {
   const [open, setOpen] = useState(false);
 
   const filtered = JOB_TITLES_DATA.filter((item) => {
     const searchTerm = value.toLowerCase();
+
     return (
       item.title.toLowerCase().includes(searchTerm) ||
       item.keywords.some((key) => key.includes(searchTerm))
@@ -97,13 +46,13 @@ export default function JobTitleCombobox({
         onFocus={() => setOpen(true)}
         placeholder="Search title or brand (e.g. Hikvision)"
         className={cn(
-          "border-muted-foreground/40 focus-visible:border-primary/40 h-10 bg-white pl-9 text-sm transition placeholder:text-zinc-400 focus-visible:ring-0",
+          "border-muted-foreground/40 focus-visible:border-primary/40 bg-background placeholder:text-muted-foreground/60 h-10 pl-9 text-sm transition focus-visible:ring-0",
           hasError ? "border-destructive/40" : isTouched && "border-success",
         )}
       />
 
       {showDropdown && (
-        <ul className="absolute z-50 mt-1 w-full overflow-hidden rounded-lg border border-zinc-100 bg-white shadow-md">
+        <ul className="border-muted-foreground/40 bg-background/30 absolute z-50 mt-1 w-full overflow-hidden rounded-lg border shadow-md backdrop-blur-sm">
           {filtered.map((item) => (
             <li
               key={item.title}
@@ -111,7 +60,7 @@ export default function JobTitleCombobox({
                 onChange(item.title);
                 setOpen(false);
               }}
-              className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+              className="text-foreground hover:bg-foreground/50 flex cursor-pointer items-center gap-2 px-3 py-2 text-sm"
             >
               <Briefcase size={12} className="shrink-0 text-zinc-400" />
               <span>{item.title}</span>
@@ -128,10 +77,10 @@ export default function JobTitleCombobox({
                   onChange(value.trim());
                   setOpen(false);
                 }}
-                className="flex cursor-pointer items-center gap-2 border-t border-zinc-100 px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-50"
+                className="border-muted-foreground/20 bg-muted-foreground/15 cursor-pointer rounded-lg border px-3 py-2 text-sm text-sky-700"
               >
                 <span className="font-medium">
-                  Use &quot;{value.trim()}&quot;
+                  Use &quot;{value.trim()}&quot; as a custom title
                 </span>
               </li>
             )}

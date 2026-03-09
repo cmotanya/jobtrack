@@ -14,7 +14,7 @@ import { formatCurrency, parseCurrency } from "@/helpers/formatCurrency";
 import { OnJobSubmit } from "./onJobSubmit";
 import { getDefaultEmptyJobValues } from "@/helpers/defaultValues";
 import { cn } from "@/lib/utils";
-import { User, Banknote, MapPin, CalendarDays } from "lucide-react";
+import { User, Banknote, CalendarDays } from "lucide-react";
 import JobProgress from "./jobProgress";
 import JobTitleCombobox from "./jobTitleCombobox";
 import LocationCombobox from "./locationCombobox";
@@ -28,18 +28,17 @@ const JobForm = ({ setIsDialogOpen, initialValues }: JobDialogProps) => {
   );
   const [manualDueDate, setManualDueDate] = useState(false);
 
-  const { control, handleSubmit, reset, formState, setValue } =
-    useForm<JobFormData>({
-      resolver: zodResolver(jobSchema),
-      defaultValues: initialValues
-        ? { ...initialValues }
-        : {
-            ...getDefaultEmptyJobValues(),
-            job_progress: "in-progress",
-            payment_status: "unpaid",
-          },
-      mode: "onSubmit",
-    });
+  const { control, handleSubmit, reset, formState } = useForm<JobFormData>({
+    resolver: zodResolver(jobSchema),
+    defaultValues: initialValues
+      ? { ...initialValues }
+      : {
+          ...getDefaultEmptyJobValues(),
+          job_progress: "in-progress",
+          payment_status: "unpaid",
+        },
+    mode: "onSubmit",
+  });
 
   const onSubmit = async (data: JobFormData) => {
     await OnJobSubmit({

@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { paymentStatusColor } from "@/data/Dashboard/status-configs";
+import { paymentStatusColor } from "@/data/status-configs";
 import { cn } from "@/lib/utils";
 import { PaymentStatusTypes } from "@/types/dashboard";
 
